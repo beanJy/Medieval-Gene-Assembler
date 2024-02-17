@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>Medieval Biotech</name>
+	<author>DDJY</author>
+	<supportedVersions>
+		<li>1.4</li>
+	</supportedVersions>
+	<modDependencies>
+	</modDependencies>
+	<loadAfter>
+    	<li>brrainz.harmony</li>
+  	</loadAfter>
+	<packageId>DDJY.MedievalBiotech</packageId>
+	<description>Medieval Biotech</description>
+</ModMetaData>

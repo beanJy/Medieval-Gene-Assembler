@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+      <JobDef>
+        <defName>DDJY_CreateXenogerm</defName>
+        <driverClass>DDJY.JobDriver_CreateXenogerm</driverClass>
+        <reportString>creating xenogerm.</reportString>
+        <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+      </JobDef>
+
+      <JobDef>
+        <defName>DDJY_RandomlyExtractGenes</defName>
+        <driverClass>DDJY.JobDriver_RandomlyExtractGenes</driverClass>
+        <reportString>researching.</reportString>
+        <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+      </JobDef>
+
+      <JobDef>
+        <defName>DDJY_GeneAssembler</defName>
+        <driverClass>DDJY.JobDriver_GeneAssembler</driverClass>
+        <reportString>researching.</reportString>
+        <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+      </JobDef>
+</Defs>

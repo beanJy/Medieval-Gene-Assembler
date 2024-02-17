@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <!-- 异种注入器 -->
+  <ThingDef ParentName="GeneSetHolderBase">
+    <defName>DDJY_Xenogerm</defName>
+    <label>xenogerm</label>
+    <description>A self-contained biological organ containing one or more implantable xenogenes.\n\nOnce implanted inside a host's body, the xenogerm modifies the host's genes, gene expression, and phenotypic development using viruses, hormones, bio-synthesized drugs, and possibly mechanites. Depending on the xenogerm, the host will develop any of a wide variety of exotic traits and abilities, transforming them into a different human xenotype.\n\nXenogerm implantation is a traumatic process. Once implanted with a xenogerm, a person will be bedridden for days as the transformation sets in.\n\nDuring storage and transport, xenogerms are kept safe in sealed containers.</description>
+    <thingClass>DDJY.DDJY_Xenogerm</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <inspectorTabs>
+      <li>ITab_Genes</li>
+    </inspectorTabs>
+    <graphicData>
+      <texPath>Things/Item/Special/Xenogerm</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.85, 0.85)</drawSize>
+    </graphicData>
+    <statBases>
+      <MarketValue>100</MarketValue>
+    </statBases>
+    <descriptionHyperlinks>
+      <ThingDef>Genepack</ThingDef>
+      <ThingDef>GeneAssembler</ThingDef>
+    </descriptionHyperlinks>
+  </ThingDef>
+</Defs>
