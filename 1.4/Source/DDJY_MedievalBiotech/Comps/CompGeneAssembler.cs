@@ -7,27 +7,33 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 using Verse.Sound;
 
 namespace DDJY
 {
     public class CompGeneAssembler : ThingComp
     {
+        private Building_TransmutationCircle transmutationCircle => parent as Building_TransmutationCircle;
         //容器内物品
-        //public ThingOwner innerContainer = (parent as Building_TransmutationCircle).innerContainer;
+        public ThingOwner innerContainer => transmutationCircle.innerContainer;
+
+        //工作执行人
+        private Pawn actor = null;
 
         //新的异种基因名称
         public string xenotypeName;
 
         //需要的超凡胶囊数量
-        private int architesRequired;
+        public int architesRequired;
 
         //新的异种基因图标
         public XenotypeIconDef iconDef;
 
         //获取到的基因
-        private List<Genepack> genepacksToRecombine;
+        public List<Genepack> genepacksToRecombine;
 
+        //连接设备存储的基因包
         [Unsaved(false)]
         private List<Genepack> tmpGenepacks = new List<Genepack>();
         
@@ -55,7 +61,7 @@ namespace DDJY
             return num;
         }
 
-        //获取基因包
+        //获取连接设备存储的基因包
         public List<Genepack> GetGenepacks(bool includePowered, bool includeUnpowered)
         {
             tmpGenepacks.Clear();
@@ -106,58 +112,23 @@ namespace DDJY
         public void Start(List<Genepack> packs, int architesRequired, string xenotypeName, XenotypeIconDef iconDef)
         {
             Reset();
-            genepacksToRecombine = packs;
+            this.actor = transmutationCircle.actor;
+            this.genepacksToRecombine = packs;
             this.architesRequired = architesRequired;
             this.xenotypeName = xenotypeName;
             this.iconDef = iconDef;
+            SelectJob();
         }
 
         //重置
         public void Reset()
-        {
+        {   
+            actor = null;
             genepacksToRecombine = null;
             xenotypeName = null;
             cachedComplexity = null;
             iconDef = XenotypeIconDefOf.Basic;
             architesRequired = 0;
-            //innerContainer.TryDropAll(def.hasInteractionCell ? InteractionCell : base.Position, base.Map, ThingPlaceMode.Near);
-        }
-
-        //完成
-        public void Finish(Pawn pawn)
-        {
-            if (!genepacksToRecombine.NullOrEmpty())
-            {
-                //SoundDefOf.GeneAssembler_Complete.PlayOneShot(SoundInfo.InMap(this));
-                Xenogerm xenogerm = (Xenogerm)ThingMaker.MakeThing(ThingDefOf.Xenogerm);
-                //创建异种注入器
-                xenogerm.Initialize(genepacksToRecombine, xenotypeName, iconDef);
-                GeneUtility.ImplantXenogermItem(pawn, xenogerm);
-                //通知
-                //if (GenPlace.TryPlaceThing(xenogerm, InteractionCell, base.Map, ThingPlaceMode.Near))
-                //{
-                //    Messages.Message("MessageXenogermCompleted".Translate(), xenogerm, MessageTypeDefOf.PositiveEvent);
-                //}
-            }
-
-            //if (architesRequired > 0)
-            //{
-            //    for (int num = innerContainer.Count - 1; num >= 0; num--)
-            //    {
-            //        if (innerContainer[num].def == ThingDefOf.ArchiteCapsule)
-            //        {
-            //            Thing thing = innerContainer[num].SplitOff(Mathf.Min(innerContainer[num].stackCount, architesRequired));
-            //            architesRequired -= thing.stackCount;
-            //            thing.Destroy();
-            //            if (architesRequired <= 0)
-            //            {
-            //                break;
-            //            }
-            //        }
-            //    }
-            //}
-
-            Reset();
         }
 
         //检查正在重组的基因是否在基因库
@@ -197,7 +168,7 @@ namespace DDJY
             get
             {
                 int num = 0;
-                ThingOwner innerContainer = (parent as Building_TransmutationCircle)?.innerContainer;
+                ThingOwner innerContainer = transmutationCircle.innerContainer;
                 if (innerContainer != null)
                 {
                     for (int i = 0; i < innerContainer.Count; i++)
@@ -215,5 +186,34 @@ namespace DDJY
 
         //需要的超凡胶囊数量
         public int ArchitesRequiredNow => architesRequired - ArchitesCount;
+
+        //选择工作
+        public void SelectJob()
+        {
+            Building_TransmutationCircle t = transmutationCircle;
+            if (ArchitesRequiredNow > 0)
+            {
+                Thing thing = FindArchiteCapsule(actor);
+                if (thing != null)
+                {
+                    Job job = JobMaker.MakeJob(DDJY_JobDefOf.DDJY_HaulToContainer, thing, t);
+                    job.count = Mathf.Min(ArchitesRequiredNow, thing.stackCount);
+                    actor.jobs.TryTakeOrderedJob(job);
+                    return;
+                }
+            }
+            else
+            {
+                actor.jobs.TryTakeOrderedJob(JobMaker.MakeJob(DDJY_JobDefOf.DDJY_CreateXenogerm, t));
+                return;
+            }
+        }
+
+        //寻找最短路径
+        private Thing FindArchiteCapsule(Pawn pawn)
+        {
+            return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(ThingDefOf.ArchiteCapsule), PathEndMode.ClosestTouch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false, false, false), 9999f, (Thing x) => !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false), null, 0, -1, false, RegionType.Set_Passable, false);
+        }
     }
+
 }

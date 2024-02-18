@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <WorkGiverDef>
-    <defName>DDJY_CreateXenogerm</defName>
-    <label>create xenogerm</label>
-    <giverClass>DDJY.WorkGiver_CreateXenogerm</giverClass>
-    <workType>Research</workType>
-    <verb>create xenogerm</verb>
-    <gerund>creating xenogerm at</gerund>
-    <priorityInType>120</priorityInType>
-    <requiredCapacities>
-      <li>Manipulation</li>
-    </requiredCapacities>
-    <canBeDoneByMechs>false</canBeDoneByMechs>
-  </WorkGiverDef>
-
-  <WorkGiverDef>
     <defName>DDJY_CarryToTransmutationCircle</defName>
     <label>carry to building</label>
     <giverClass>DDJY.WorkGiver_CarryToTransmutationCircle</giverClass>

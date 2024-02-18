@@ -1,5 +1,6 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -7,45 +8,116 @@ namespace DDJY
 {
     public class JobDriver_CreateXenogerm : JobDriver
     {
-        private const int JobEndInterval = 4000;
+        private Building_TransmutationCircle TransmutationCircle => (Building_TransmutationCircle)base.TargetThingA;
 
-        private Building_AlchemyTable Xenogerminator => (Building_AlchemyTable)base.TargetThingA;
+        private CompGeneAssembler compGeneAssembler => TransmutationCircle.TryGetComp<CompGeneAssembler>();
+        //异种植入器
+        private Xenogerm xenogerm;
+        //待合成的基因列表
+        private List<Genepack> packsList;
+        //连接到建筑的建筑列表
+        public List<Thing> ConnectedFacilities => TransmutationCircle.TryGetComp<CompAffectedByFacilities>().LinkedFacilitiesListForReading;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            if (pawn.Reserve(Xenogerminator, job, 1, -1, null, errorOnFailed))
+
+            if (TransmutationCircle.def.hasInteractionCell)
             {
-                return pawn.ReserveSittableOrSpot(Xenogerminator.InteractionCell, job, errorOnFailed);
+                return pawn.ReserveSittableOrSpot(TransmutationCircle.InteractionCell, job, errorOnFailed);
             }
 
-            return false;
+            return true;
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
+            TransmutationCircle.actor = pawn;
+            pawn.drafter.Drafted = false;
+            packsList = TransmutationCircle.TryGetComp<CompGeneAssembler>().genepacksToRecombine;
             this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
-            this.FailOn(() => !Xenogerminator.CanBeWorkedOnNow.Accepted);
-            yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
-            Toil toil = ToilMaker.MakeToil("MakeNewToils");
-            toil.tickAction = delegate
+            //移动toil
+            yield return Toils_Goto.GotoThing(TargetIndex.A, TransmutationCircle.InteractionCell + new IntVec3(0, 0, 1).RotatedBy(TransmutationCircle.Rotation));
+
+            //等待toil
+            Toil Toils_Wait = ToilMaker.MakeToil("wait");
+            Toils_Wait.initAction = delegate
             {
-                float workAmount = pawn.GetStatValue(StatDefOf.ResearchSpeed) * Xenogerminator.GetStatValue(StatDefOf.AssemblySpeedFactor);
-                Xenogerminator.DoWork(workAmount);
-                pawn.skills.Learn(SkillDefOf.Intellectual, 0.1f);
-                pawn.GainComfortFromCellIfPossible(chairsOnly: true);
-                if (Xenogerminator.ProgressPercent >= 1f)
-                {
-                    Xenogerminator.Finish();
-                    pawn.jobs.EndCurrentJob(JobCondition.Succeeded);
-                }
+                Pawn actor = Toils_Wait.actor;
+                actor.jobs.curDriver.ticksLeftThisToil = 3000;
+                //人物朝向建筑
+                actor.Rotation = TransmutationCircle.Rotation.Opposite;
             };
-            toil.FailOnCannotTouch(TargetIndex.A, PathEndMode.InteractionCell);
-            toil.WithEffect(EffecterDefOf.GeneAssembler_Working, TargetIndex.A);
-            toil.WithProgressBar(TargetIndex.A, () => Xenogerminator.ProgressPercent, interpolateBetweenActorAndTarget: false, 0f);
-            toil.defaultCompleteMode = ToilCompleteMode.Never;
-            toil.defaultDuration = 4000;
-            toil.activeSkill = () => SkillDefOf.Intellectual;
-            yield return toil;
+            Toils_Wait.AddFailCondition(delegate
+            {
+                return !CheckAllContainersValid();
+            });
+            Toils_Wait.defaultCompleteMode = ToilCompleteMode.Delay;
+            Toils_Wait.WithProgressBar(TargetIndex.B, delegate { return 1f - (float)Toils_Wait.actor.jobs.curDriver.ticksLeftThisToil / 3000; }, false, -0.5f, false);
+            yield return Toils_Wait;
+
+            //完成toil
+            Toil Toil_Done = ToilMaker.MakeToil("done");
+            Toil_Done.initAction = delegate
+            {
+                Finish();
+            };
+            yield return Toil_Done;
+        }
+
+
+        //使用异种注入器
+        private void Finish()
+        {   
+            xenogerm = (Xenogerm)ThingMaker.MakeThing(ThingDefOf.Xenogerm);
+            xenogerm.Initialize(packsList, compGeneAssembler.xenotypeName, compGeneAssembler.iconDef);
+            GeneUtility.ImplantXenogermItem(TransmutationCircle.ContainedPawn, xenogerm);
+            if (compGeneAssembler.architesRequired > 0)
+            {
+                for (int i = compGeneAssembler.innerContainer.Count - 1; i >= 0; i--)
+                {
+                    if (compGeneAssembler.innerContainer[i].def == ThingDefOf.ArchiteCapsule)
+                    {
+                        Thing thing = compGeneAssembler.innerContainer[i].SplitOff(Mathf.Min(compGeneAssembler.innerContainer[i].stackCount, compGeneAssembler.architesRequired));
+                        compGeneAssembler.architesRequired -= thing.stackCount;
+                        thing.Destroy(DestroyMode.Vanish);
+                        if (compGeneAssembler.architesRequired <= 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        //运行时检测
+        public bool CheckAllContainersValid()
+        {
+            if (packsList.NullOrEmpty())
+            {
+                Log.Message("packsList.NullOrEmpty");
+                return false;
+            }
+
+            List<Thing> connectedFacilities = ConnectedFacilities;
+            for (int i = 0; i < packsList.Count; i++)
+            {
+                bool flag = false;
+                for (int j = 0; j < connectedFacilities.Count; j++)
+                {
+                    CompGenepackContainer compGenepackContainer = connectedFacilities[j].TryGetComp<CompGenepackContainer>();
+                    if (compGenepackContainer != null && compGenepackContainer.ContainedGenepacks.Contains(packsList[i]))
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if (!flag)
+                {
+                    Messages.Message("MessageXenogermCancelledMissingPack".Translate(TransmutationCircle), TransmutationCircle, MessageTypeDefOf.NegativeEvent);
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

@@ -15,9 +15,17 @@
       </JobDef>
 
       <JobDef>
-        <defName>DDJY_GeneAssembler</defName>
-        <driverClass>DDJY.JobDriver_GeneAssembler</driverClass>
+        <defName>DDJY_GoToTransmutationCircle</defName>
+        <driverClass>DDJY.JobDriver_GoToTransmutationCircle</driverClass>
         <reportString>researching.</reportString>
+        <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+      </JobDef>
+
+      <JobDef>
+        <defName>DDJY_HaulToContainer</defName>
+        <driverClass>DDJY.JobDriver_HaulToContainer</driverClass>
+        <reportString>hauling TargetA.</reportString>
+        <suspendable>false</suspendable>
         <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
       </JobDef>
 </Defs>

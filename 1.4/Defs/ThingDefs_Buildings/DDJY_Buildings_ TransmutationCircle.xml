@@ -49,7 +49,7 @@
         </statBases>
         <costStuffCount>200</costStuffCount>
         <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
-        <!-- <comps>
+        <comps>
           <li>
             <compClass>DDJY.CompRemovePart</compClass>
           </li>
@@ -62,7 +62,7 @@
               <li>GeneProcessor</li>
             </linkableFacilities>
           </li>
-        </comps> -->
+        </comps>
         <!-- <comps>
           <li Class="CompProperties_Power">
             <compClass>CompPowerTrader</compClass>
@@ -72,78 +72,4 @@
           <li Class="CompProperties_Flickable"/>
         </comps> -->
     </ThingDef>
-
-    <ThingDef ParentName="BuildingBase">
-      <defName>DDJY_Transmutation</defName>
-      <label>炼金阵22</label>
-      <description>An automated surgery machine that can extract a person's genes and create a genepack from them. The extracted genes will be randomly selected from the person's xenogenes and germline genes. You can force someone into the machine, but they won't like it.\n\nExtracting a person's genes while their genes are currently regrowing will kill them. Otherwise, gene extraction causes no lasting harm.\n\nGenes that require archite capsules are too complex to be extracted.</description>
-      <thingClass>DDJY.Building_GeneExtractor</thingClass>
-      <containedPawnsSelectable>true</containedPawnsSelectable>
-      <passability>Standable</passability>
-      <fillPercent>0.4</fillPercent>
-      <castEdgeShadows>false</castEdgeShadows>
-      <drawerType>MapMeshAndRealTime</drawerType>
-      <tickerType>Normal</tickerType>
-      <graphicData>
-        <texPath>Things/Building/TransmutationCircle</texPath>
-        <graphicClass>Graphic_Multi</graphicClass>
-        <drawSize>(5, 5)</drawSize>
-      </graphicData>
-      <size>(5, 5)</size>
-      <descriptionHyperlinks>
-        <ThingDef>GeneBank</ThingDef>
-        <ThingDef>GeneProcessor</ThingDef>
-        <ThingDef>Genepack</ThingDef>
-        <ThingDef>Xenogerm</ThingDef>
-      </descriptionHyperlinks>
-      <altitudeLayer>FloorEmplacement</altitudeLayer>
-      <canOverlapZones>false</canOverlapZones>
-      <hasInteractionCell>true</hasInteractionCell>
-      <interactionCellOffset>(0,0,1)</interactionCellOffset>
-      <defaultPlacingRot>South</defaultPlacingRot>
-      <designationCategory>Biotech</designationCategory>
-      <uiOrder>2100</uiOrder>
-      <researchPrerequisites>
-        <li>Xenogermination</li>
-      </researchPrerequisites>
-      <building>
-        <buildingTags>
-          <li>Biotech</li>
-        </buildingTags>
-      </building>
-      <stuffCategories>
-        <li>Stony</li>
-      </stuffCategories>
-      <statBases>
-        <MaxHitPoints>50</MaxHitPoints>
-        <WorkToBuild>25000</WorkToBuild>
-        <Beauty>10</Beauty>
-        <StyleDominance>20</StyleDominance>
-      </statBases>
-      <costStuffCount>200</costStuffCount>
-      <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
-      <!-- <comps>
-        <li>
-          <compClass>DDJY.CompRemovePart</compClass>
-        </li>
-        <li>
-          <compClass>DDJY.CompGeneAssembler</compClass>
-        </li>
-        <li Class="CompProperties_AffectedByFacilities">
-          <linkableFacilities>
-            <li>GeneBank</li>
-            <li>GeneProcessor</li>
-          </linkableFacilities>
-        </li>
-      </comps> -->
-      <!-- <comps>
-        <li Class="CompProperties_Power">
-          <compClass>CompPowerTrader</compClass>
-          <basePowerConsumption>200</basePowerConsumption>
-          <idlePowerDraw>50</idlePowerDraw>
-        </li>
-        <li Class="CompProperties_Flickable"/>
-      </comps> -->
-  </ThingDef>
- 
 </Defs>

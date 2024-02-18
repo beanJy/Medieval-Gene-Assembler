@@ -14,23 +14,42 @@ namespace DDJY
     public class Building_TransmutationCircle : Building_Enterable, IThingHolderWithDrawnPawn, IThingHolder
     {
         //执行工作的pwan
-        private Pawn actor = null;
-
-        //设置actor
-        public void SetActor(Pawn pawn) { actor = pawn; }
-        
+        public Pawn actor = null;
+        //CompGeneAssembler组件
+        public CompGeneAssembler compGeneAssembler => this.TryGetComp<CompGeneAssembler>();
         //是否有actor
-        public bool IsHasActor() {
-            if (actor != null && actor.CurJob.targetA == this) {
-                if (actor.CurJob != null && actor.CurJob.targetA != null && actor.CurJob.targetA == this)
+        public bool IsHasActor()
+        {
+            if (actor != null)
+            {
+                if(actor.CurJob != null && (actor.CurJob.targetA == this || actor.CurJob.targetB == this))
                 {
                     return true;
                 }
-                SetActor(null);
+                actor = null;
+                return false;
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
+        //建筑内人物
+        public Pawn ContainedPawn
+        {
+            get
+            {
+                foreach (var item in innerContainer)
+                {
+                    if (item is Pawn)
+                    {
+                        return (Pawn)item;
+                    }
+                }
+                return null; // 如果没有找到 Pawn 对象，则返回 null
+            }
+        }
 
         //缓存人物纹理
         [Unsaved(false)]
@@ -38,11 +57,8 @@ namespace DDJY
         
         //取消图标
         private static readonly Texture2D CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
-       
-        //建筑内人物
-        private Pawn ContainedPawn => innerContainer.FirstOrDefault() as Pawn;
 
-        //建筑内物品是否暂停，人物的需求暂停
+        //人物的需求暂停
         public override bool IsContentsSuspended => false;
 
         // 插入pwan纹理
@@ -140,7 +156,6 @@ namespace DDJY
         // 取消当前对象的操作，并执行一些清理工作
         public void Cancel()
         {
-            startTick = -1;
             selectedPawn = null;
             innerContainer.TryDropAll(def.hasInteractionCell ? InteractionCell + new IntVec3(0, 0, -1).RotatedBy(this.Rotation) : base.Position, base.Map, ThingPlaceMode.Near);
         }
@@ -240,187 +255,33 @@ namespace DDJY
             //如果在工作
             if (IsHasActor())
             {
-                //取消提取按钮
-                Command_Action command_Action = new Command_Action();
-                command_Action.defaultLabel = "CommandCancelExtraction".Translate();
-                command_Action.defaultDesc = "CommandCancelExtractionDesc".Translate();
-                command_Action.icon = CancelIcon;
-                command_Action.action = delegate
-                {
-                    SetActor(null);
-                };
-                command_Action.activateSound = SoundDefOf.Designate_Cancel;
-                yield return command_Action;
+                //取消仪式按钮
+                yield return CommandCancelCeremony();
                 yield break;
             }
-
             if (selectedPawn != null)
             {
                 //取消装载
-                Command_Action command_Action3 = new Command_Action();
-                command_Action3.defaultLabel = "CommandCancelLoad".Translate();
-                command_Action3.defaultDesc = "CommandCancelLoadDesc".Translate();
-                command_Action3.icon = CancelIcon;
-                command_Action3.activateSound = SoundDefOf.Designate_Cancel;
-                command_Action3.action = delegate
-                {
-                    innerContainer.TryDropAll(base.Position, base.Map, ThingPlaceMode.Near);
-                    if (selectedPawn.CurJobDef == JobDefOf.EnterBuilding)
-                    {
-                        selectedPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-                    }
-                    selectedPawn = null;
-                    startTick = -1;
-                };
-                yield return command_Action3;
+                yield return CommandCancelLoad();
                 //如果已经装进建筑
                 if (ContainedPawn != null)
                 {
-                    Pawn pawn = selectedPawn;
-                    AcceptanceReport acceptanceReport1 = CanExtractGenes(selectedPawn);
-                    //开始随机提取基因
-                    Command_Action command_Action5 = new Command_Action();
-                    command_Action5.defaultLabel = "随机提取基因".Translate();
-                    command_Action5.defaultDesc = "CommandCancelLoadDesc".Translate();
-                    command_Action5.icon = CancelIcon;
-                    command_Action5.activateSound = SoundDefOf.Designate_Cancel;
-                    command_Action5.action = delegate
-                    {
-                        List<FloatMenuOption> list = new List<FloatMenuOption>();
-                        foreach (Pawn item in base.Map.mapPawns.AllPawnsSpawned)
-                        {
-                            if (item.RaceProps.Humanlike && !item.IsPrisonerOfColony && (item.IsColonist || item.IsSlaveOfColony))
-                            {
-                                if (item.skills.GetSkill(SkillDefOf.Intellectual).Level > 10)
-                                {
-                                    if (item.Downed)
-                                    {
-                                        list.Add(new FloatMenuOption(item.LabelShortCap + " " + "DownedLower".Translate(), null, item, Color.white));
-                                    }
-                                    else
-                                    {
-                                        string text = item.LabelShortCap + " 主持仪式".Translate();
-                                        list.Add(new FloatMenuOption(text, delegate
-                                        {
-                                            item.jobs.TryTakeOrderedJob(JobMaker.MakeJob(DDJY_JobDefOf.DDJY_RandomlyExtractGenes, this, pawn), JobTag.Misc);
-                                        }, item, Color.white));
-                                    }
-                                }
-                            }
-                        }
-                        if (!list.Any())
-                        {
-                            list.Add(new FloatMenuOption("没有合适的主持人 ".Translate(), null));
-                        }
-                        Find.WindowStack.Add(new FloatMenu(list));
-                    };
-
-                    //开始定向提取基因
-                    Command_Action command_Action6 = new Command_Action();
-                    command_Action6.defaultLabel = "定向提取基因".Translate();
-                    command_Action6.defaultDesc = "CommandCancelLoadDesc".Translate();
-                    command_Action6.icon = CancelIcon;
-                    command_Action6.activateSound = SoundDefOf.Designate_Cancel;
-                    command_Action6.action = delegate
-                    {
-                        this.TryGetComp<CompRemovePart>()?.RandomReMoveNoVitalsParts(ContainedPawn);
-                    };
+                    //随机提取基因
+                    Command_Action commandRandomlyExtractGenes = CommandRandomlyExtractGenes();
                     //设置人物基因
-                    Command_Action command_Action7 = new Command_Action();
-                    command_Action7.defaultLabel = "设置基因".Translate();
-                    command_Action7.defaultDesc = "CommandCancelLoadDesc".Translate();
-                    command_Action7.icon = CancelIcon;
-                    command_Action7.activateSound = SoundDefOf.Designate_Cancel;
-                    command_Action7.action = delegate
-                    {
-                        List<FloatMenuOption> list = new List<FloatMenuOption>();
-                        foreach (Pawn item in base.Map.mapPawns.AllPawnsSpawned)
-                        {
-                            if (item.RaceProps.Humanlike && !item.IsPrisonerOfColony && (item.IsColonist || item.IsSlaveOfColony))
-                            {
-                                if (item.skills.GetSkill(SkillDefOf.Intellectual).Level > 10)
-                                {
-                                    if (item.Downed)
-                                    {
-                                        list.Add(new FloatMenuOption(item.LabelShortCap + " " + "DownedLower".Translate(), null, item, Color.white));
-                                    }
-                                    else
-                                    {
-                                        string text = item.LabelShortCap + " 主持仪式".Translate();
-                                        list.Add(new FloatMenuOption(text, delegate
-                                        {
-                                            //Find.WindowStack.Add(new Dialog_CreateXenogerm(this));
-                                            item.jobs.TryTakeOrderedJob(JobMaker.MakeJob(DDJY_JobDefOf.DDJY_GeneAssembler, this, pawn), JobTag.Misc);
-                                        }, item, Color.white));
-                                    }
-                                }
-                            }
-                        }
-                        if (!list.Any())
-                        {
-                            list.Add(new FloatMenuOption("没有合适的主持人 ".Translate(), null));
-                        }
-                        Find.WindowStack.Add(new FloatMenu(list));
-                    };
+                    Command_Action commandAssembleGenes = CommandAssembleGenes();
                     //禁用按钮
-                    if (!acceptanceReport1.Accepted)
+                    if (!CanExtractGenes(selectedPawn).Accepted)
                     {
-                        command_Action5.Disable(acceptanceReport1.Reason);
-                        command_Action6.Disable(acceptanceReport1.Reason);
+                        commandRandomlyExtractGenes.Disable(CanExtractGenes(selectedPawn).Reason);
                     }
-
-                    yield return command_Action5;
-                    yield return command_Action6;
-                    yield return command_Action7;
+                    yield return commandRandomlyExtractGenes;
+                    yield return commandAssembleGenes;
                 }
                 yield break;
             }
-
             //置入人员
-            Command_Action command_Action4 = new Command_Action();
-            command_Action4.defaultLabel = "InsertPerson".Translate() + "...";
-            command_Action4.defaultDesc = "InsertPersonGeneExtractorDesc".Translate();
-            command_Action4.icon = InsertPawnTex;
-            command_Action4.action = delegate
-            {
-                List<FloatMenuOption> list = new List<FloatMenuOption>();
-                foreach (Pawn item in base.Map.mapPawns.AllPawnsSpawned)
-                {
-                    Pawn pawn = item;
-                    if (pawn.genes != null)
-                    {
-                        AcceptanceReport acceptanceReport = CanAcceptPawn(pawn);
-                        string text = pawn.LabelShortCap + ", " + pawn.genes.XenotypeLabelCap;
-                        if (!acceptanceReport.Accepted)
-                        {
-                            if (!acceptanceReport.Reason.NullOrEmpty())
-                            {
-                                list.Add(new FloatMenuOption(text + ": " + acceptanceReport.Reason, null, pawn, Color.white));
-                            }
-                        }
-                        else
-                        {
-                            Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.XenogermReplicating);
-                            if (firstHediffOfDef != null)
-                            {
-                                text = text + " (" + firstHediffOfDef.LabelBase + ", " + firstHediffOfDef.TryGetComp<HediffComp_Disappears>().ticksToDisappear.ToStringTicksToPeriod(allowSeconds: true, shortForm: true).Colorize(ColoredText.SubtleGrayColor) + ")";
-                            }
-
-                            list.Add(new FloatMenuOption(text, delegate
-                            {
-                                SelectPawn(pawn);
-                            }, pawn, Color.white));
-                        }
-                    }
-                }
-                if (!list.Any())
-                {
-                    list.Add(new FloatMenuOption("NoExtractablePawns".Translate(), null));
-                }
-
-                Find.WindowStack.Add(new FloatMenu(list));
-            };
-            yield return command_Action4;
+            yield return CommandInsertPerson();
         }
         
         // 绘制基因提取器及其内部的选定角色
@@ -487,5 +348,174 @@ namespace DDJY
             return true;
         }
 
+        //取消仪式按钮
+        private Command_Action CommandCancelCeremony()
+        {
+            Command_Action command_Action = new Command_Action();
+            command_Action.defaultLabel = "DDJY_CommandCancelCeremony".Translate();
+            command_Action.defaultDesc = "DDJY_CommandCancelCeremonyDesc".Translate();
+            command_Action.icon = CancelIcon;
+            command_Action.action = delegate
+            {
+                if(IsHasActor())
+                {
+                    actor.jobs.EndCurrentJob(JobCondition.InterruptForced);
+                }
+                actor = null;
+            };
+            command_Action.activateSound = SoundDefOf.Designate_Cancel;
+            return command_Action;
+        }
+
+        //取消装载按钮
+        private Command_Action CommandCancelLoad() 
+        {
+            Command_Action command_Action2 = new Command_Action();
+            command_Action2.defaultLabel = "CommandCancelLoad".Translate();
+            command_Action2.defaultDesc = "CommandCancelLoadDesc".Translate();
+            command_Action2.icon = CancelIcon;
+            command_Action2.activateSound = SoundDefOf.Designate_Cancel;
+            command_Action2.action = delegate
+            {
+                innerContainer.TryDropAll(base.Position, base.Map, ThingPlaceMode.Near);
+                if (selectedPawn.CurJobDef == JobDefOf.EnterBuilding)
+                {
+                    selectedPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
+                }
+                selectedPawn = null;
+            };
+            return command_Action2;
+        }
+
+        //随机提取基因按钮
+        private Command_Action CommandRandomlyExtractGenes()
+        {
+            Command_Action command_Action3 = new Command_Action();
+            command_Action3.defaultLabel = "DDJY_CommandRandomlyExtractGenes".Translate();
+            command_Action3.defaultDesc = "DDJY_CommandRandomlyExtractGenesDesc".Translate();
+            command_Action3.icon = CancelIcon;
+            command_Action3.activateSound = SoundDefOf.Designate_Cancel;
+            command_Action3.action = delegate
+            {
+                List<FloatMenuOption> list = new List<FloatMenuOption>();
+                foreach (Pawn item in base.Map.mapPawns.AllPawnsSpawned)
+                {
+                    if (item.RaceProps.Humanlike && !item.IsPrisonerOfColony && (item.IsColonist || item.IsSlaveOfColony))
+                    {
+                        if (item.skills.GetSkill(SkillDefOf.Intellectual).Level > 10)
+                        {
+                            if (item.Downed)
+                            {
+                                list.Add(new FloatMenuOption(item.LabelShortCap + ": " + "DownedLower".Translate(), null, item, Color.white));
+                            }
+                            else
+                            {
+                                string text = "DDJY_HostCeremony".Translate(item.LabelShortCap);
+                                list.Add(new FloatMenuOption(text, delegate
+                                {
+                                    item.jobs.TryTakeOrderedJob(JobMaker.MakeJob(DDJY_JobDefOf.DDJY_RandomlyExtractGenes, this, ContainedPawn), JobTag.Misc);
+                                }, item, Color.white));
+                            }
+                        }
+                    }
+                }
+                if (!list.Any())
+                {
+                    list.Add(new FloatMenuOption("DDJY_NobodyHostCeremony".Translate(), null));
+                }
+                Find.WindowStack.Add(new FloatMenu(list));
+            };
+            return command_Action3;
+        }
+
+        //融合灵魂按钮
+        private Command_Action CommandAssembleGenes()
+        {
+            Command_Action command_Action4 = new Command_Action();
+            command_Action4.defaultLabel = "DDJY_AssembleGenes".Translate();
+            command_Action4.defaultDesc = "DDJY_AssembleGenesDesc".Translate();
+            command_Action4.icon = CancelIcon;
+            command_Action4.activateSound = SoundDefOf.Designate_Cancel;
+            command_Action4.action = delegate
+            {
+                List<FloatMenuOption> list = new List<FloatMenuOption>();
+                foreach (Pawn item in base.Map.mapPawns.AllPawnsSpawned)
+                {
+                    if (item.RaceProps.Humanlike && !item.IsPrisonerOfColony && (item.IsColonist || item.IsSlaveOfColony))
+                    {
+                        if (item.skills.GetSkill(SkillDefOf.Intellectual).Level > 10)
+                        {
+                            if (item.Downed)
+                            {
+                                list.Add(new FloatMenuOption(item.LabelShortCap + ": " + "DownedLower".Translate(), null, item, Color.white));
+                            }
+                            else
+                            {
+                                string text = "DDJY_HostCeremony".Translate(item.LabelShortCap);
+                                list.Add(new FloatMenuOption(text, delegate
+                                {
+                                    item.jobs.TryTakeOrderedJob(JobMaker.MakeJob(DDJY_JobDefOf.DDJY_GoToTransmutationCircle, this), JobTag.Misc);
+                                }, item, Color.white));
+                            }
+                        }
+                    }
+                }
+                if (!list.Any())
+                {
+                    list.Add(new FloatMenuOption("DDJY_NobodyHostCeremony".Translate(), null));
+                }
+                Find.WindowStack.Add(new FloatMenu(list));
+            };
+            return command_Action4;
+        }
+
+        //置入人员按钮
+        private Command_Action CommandInsertPerson()
+        {
+            Command_Action command_Action5 = new Command_Action();
+            command_Action5.defaultLabel = "InsertPerson".Translate() + "...";
+            command_Action5.defaultDesc = "InsertPersonGeneExtractorDesc".Translate();
+            command_Action5.icon = InsertPawnTex;
+            command_Action5.action = delegate
+            {
+                List<FloatMenuOption> list = new List<FloatMenuOption>();
+                foreach (Pawn item in base.Map.mapPawns.AllPawnsSpawned)
+                {
+                    Pawn pawn = item;
+                    if (pawn.genes != null)
+                    {
+                        AcceptanceReport acceptanceReport = CanAcceptPawn(pawn);
+                        string text = pawn.LabelShortCap + ", " + pawn.genes.XenotypeLabelCap;
+                        if (!acceptanceReport.Accepted)
+                        {
+                            if (!acceptanceReport.Reason.NullOrEmpty())
+                            {
+                                list.Add(new FloatMenuOption(text + ": " + acceptanceReport.Reason, null, pawn, Color.white));
+                            }
+                        }
+                        else
+                        {
+                            Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.XenogermReplicating);
+                            if (firstHediffOfDef != null)
+                            {
+                                text = text + " (" + firstHediffOfDef.LabelBase + ", " + firstHediffOfDef.TryGetComp<HediffComp_Disappears>().ticksToDisappear.ToStringTicksToPeriod(allowSeconds: true, shortForm: true).Colorize(ColoredText.SubtleGrayColor) + ")";
+                            }
+
+                            list.Add(new FloatMenuOption(text, delegate
+                            {
+                                SelectPawn(pawn);
+                            }, pawn, Color.white));
+                        }
+                    }
+                }
+                if (!list.Any())
+                {
+                    list.Add(new FloatMenuOption("NoExtractablePawns".Translate(), null));
+                }
+
+                Find.WindowStack.Add(new FloatMenu(list));
+            };
+            return command_Action5;
+        }
     }
 }

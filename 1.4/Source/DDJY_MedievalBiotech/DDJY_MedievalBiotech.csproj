@@ -68,16 +68,14 @@
     <Compile Include="Defs\DDJY_JobDefOf.cs" />
     <Compile Include="Defs\DDJY_ThingDefOf.cs" />
     <Compile Include="Defs\DDJY_WorkGiverDefOf.cs" />
-    <Compile Include="JobDriver\JobDriver_GeneAssembler.cs" />
+    <Compile Include="JobDriver\JobDriver_GoToTransmutationCircle.cs" />
+    <Compile Include="JobDriver\JobDriver_HaulToContainer.cs" />
     <Compile Include="Window\Dialog_CreateXenogerm.cs" />
     <Compile Include="JobDriver\JobDriver_CreateXenogerm.cs" />
     <Compile Include="JobDriver\JobDriver_RandomlyExtractGenes.cs" />
     <Compile Include="Building_TransmutationCircle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkGiver\WorkGiver_CarryToTransmutationCircle.cs" />
-    <Compile Include="WorkGiver\WorkGiver_CreateXenogerm.cs" />
-    <Compile Include="Comps\Xenogerm.cs" />
-    <Compile Include="WorkGiver\WorkGiver_StarGeneAssembler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

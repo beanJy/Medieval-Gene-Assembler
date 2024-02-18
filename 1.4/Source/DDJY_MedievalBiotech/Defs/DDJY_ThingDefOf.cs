@@ -11,8 +11,6 @@ namespace DDJY
             DefOfHelper.EnsureInitializedInCtor(typeof(DDJY_ThingDefOf));
         }
 
-        public static ThingDef DDJY_AlchemyTable;
         public static ThingDef DDJY_TransmutationCircle;
-        public static ThingDef DDJY_Xenogerm;
     }
 }

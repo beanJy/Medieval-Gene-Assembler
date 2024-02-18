@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <DDJY_RemovePart>{0}的{1}消失不见了了 </DDJY_RemovePart>
+  <DDJY_CommandCancelCeremony>取消仪式</DDJY_CommandCancelCeremony>
+  <DDJY_CommandCancelCeremonyDesc>取消仪式文本</DDJY_CommandCancelCeremonyDesc>
+  <DDJY_CommandRandomlyExtractGenes>随机提取灵魂</DDJY_CommandRandomlyExtractGenes>
+  <DDJY_CommandRandomlyExtractGenesDesc>随机提取灵魂文本</DDJY_CommandRandomlyExtractGenesDesc>
+  <DDJY_AssembleGenes>融合灵魂</DDJY_AssembleGenes>
+  <DDJY_AssembleGenesDesc>融合灵魂文本</DDJY_AssembleGenesDesc>
+  <DDJY_HostCeremony>{0}: 主持仪式</DDJY_HostCeremony>
+  <DDJY_NobodyHostCeremony>没有合适的主持人</DDJY_NobodyHostCeremony>
+  <DDJY_StartCombining>开始融合</DDJY_StartCombining>
+  <DDJY_SelectedGenepacks>已选择的灵魂</DDJY_SelectedGenepacks>
+  <DDJY_GenepackLibrary>灵魂库</DDJY_GenepackLibrary>
 </LanguageData>

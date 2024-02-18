@@ -29,13 +29,9 @@ namespace DDJY
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            TransmutationCircle.SetActor(pawn);
-            if (pawn.Drafted)
-            {
-                pawn.drafter.Drafted = false;
-            }
+            TransmutationCircle.actor = pawn;
+            pawn.drafter.Drafted = false;
             this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
-            this.FailOn(() => !TransmutationCircle.IsHasActor());
             yield return Toils_Goto.GotoThing(TargetIndex.A, TransmutationCircle.InteractionCell + new IntVec3(0,0,1).RotatedBy(TransmutationCircle.Rotation));
             //等待3000
             Toil Toils_Wait = ToilMaker.MakeToil("wait");
@@ -51,7 +47,7 @@ namespace DDJY
             Toils_Wait.defaultCompleteMode = ToilCompleteMode.Delay;
             Toils_Wait.WithProgressBar(TargetIndex.B, delegate{ return 1f - (float)Toils_Wait.actor.jobs.curDriver.ticksLeftThisToil /  3000;}, false, -0.5f, false);
             yield return Toils_Wait;
-
+            //完成
             Toil Toil_Done = ToilMaker.MakeToil("done");
             Toil_Done.initAction = delegate
             {
@@ -79,11 +75,7 @@ namespace DDJY
             {
                 genepack.Initialize(genesToAdd);
             }
-            //添加基因重构的方法
-            //GeneUtility.ExtractXenogerm(containedPawn, Mathf.RoundToInt(60000f * GeneTuning.GeneExtractorRegrowingDurationDaysRange.RandomInRange));
             IntVec3 intVec = (TransmutationCircle.def.hasInteractionCell ? TransmutationCircle.InteractionCell : TransmutationCircle.Position);
-            //弹出人员的方法
-            //TransmutationCircle.innerContainer.TryDropAll(intVec, base.Map, ThingPlaceMode.Near);
             if (!containedPawn.Dead && (containedPawn.IsPrisonerOfColony || containedPawn.IsSlaveOfColony))
             {
                 containedPawn.needs?.mood?.thoughts?.memories?.TryGainMemory(ThoughtDefOf.XenogermHarvested_Prisoner);
@@ -95,7 +87,6 @@ namespace DDJY
                 //移除身体器官
                 TransmutationCircle.GetComp<CompRemovePart>()?.RandomReMoveNoVitalsParts(containedPawn);
             }
-            //
             Messages.Message("GeneExtractionComplete".Translate(containedPawn.Named("PAWN")) + ": " + genesToAdd.Select((GeneDef x) => x.label).ToCommaList().CapitalizeFirst(), new LookTargets(containedPawn, genepack), MessageTypeDefOf.PositiveEvent);
             float SelectionWeight(Gene g)
             {

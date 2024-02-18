@@ -12,6 +12,5 @@ namespace DDJY
         }
 
         public static WorkGiverDef DDJY_CarryToTransmutationCircle;
-        public static WorkGiverDef DDJY_CreateXenogerm;
     }
 }

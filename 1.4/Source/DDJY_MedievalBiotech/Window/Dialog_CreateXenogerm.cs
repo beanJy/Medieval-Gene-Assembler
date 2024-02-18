@@ -11,8 +11,8 @@ namespace DDJY
 {
     public class Dialog_CreateXenogerm : GeneCreationDialogBase
     {
-        
         private Building_TransmutationCircle TransmutationCircle;
+
         private Action<List<Genepack>, int, string, XenotypeIconDef> StarAction;
 
         private List<Genepack> libraryGenepacks = new List<Genepack>();
@@ -23,11 +23,13 @@ namespace DDJY
 
         private List<GeneDef> tmpGenes = new List<GeneDef>();
 
+        private CompGeneAssembler compGeneAssembler => TransmutationCircle.TryGetComp<CompGeneAssembler>();
+
         public override Vector2 InitialSize => new Vector2(1016f, UI.screenHeight);
 
-        protected override string Header => "AssembleGenes".Translate();
+        protected override string Header => "DDJY_AssembleGenes".Translate();
 
-        protected override string AcceptButtonLabel => "StartCombining".Translate();
+        protected override string AcceptButtonLabel => "DDJY_StartCombining".Translate();
 
         //选择的基因列表
         protected override List<GeneDef> SelectedGenes
@@ -52,15 +54,14 @@ namespace DDJY
         {
             this.TransmutationCircle = TransmutationCircle;
             this.StarAction = StarAction;
-            maxGCX = TransmutationCircle.TryGetComp<CompGeneAssembler>().MaxComplexity();
-            libraryGenepacks.AddRange(TransmutationCircle.TryGetComp<CompGeneAssembler>().GetGenepacks(includePowered: true, includeUnpowered: true));
+            maxGCX = compGeneAssembler.MaxComplexity();
+            libraryGenepacks.AddRange(compGeneAssembler.GetGenepacks(includePowered: true, includeUnpowered: true));
             xenotypeName = string.Empty;
             closeOnAccept = false;
             forcePause = true;
             absorbInputAroundWindow = true;
             searchWidgetOffsetX = GeneCreationDialogBase.ButSize.x * 2f + 4f;
             libraryGenepacks.SortGenepacks();
-            //unpoweredGenepacks.SortGenepacks();
         }
 
         //打开窗口时调用，检查是否有Dlc
@@ -87,7 +88,6 @@ namespace DDJY
         private void StartAssembly()
         {
             StarAction(selectedGenepacks, arc, xenotypeName?.Trim(), iconDef);
-            //TransmutationCircle.TryGetComp<CompGeneAssembler>().Start(selectedGenepacks, arc, xenotypeName?.Trim(), iconDef);
             SoundDefOf.StartRecombining.PlayOneShotOnCamera();
             Close(doCloseSound: false);
         }
@@ -102,9 +102,9 @@ namespace DDJY
             Rect containingRect = rect2;
             containingRect.y = scrollPosition.y;
             containingRect.height = rect.height;
-            DrawSection(rect, selectedGenepacks, "SelectedGenepacks".Translate(), ref curY, ref selectedHeight, adding: false, containingRect);
+            DrawSection(rect, selectedGenepacks, "DDJY_SelectedGenepacks".Translate(), ref curY, ref selectedHeight, adding: false, containingRect);
             curY += 8f;
-            DrawSection(rect, libraryGenepacks, "GenepackLibrary".Translate(), ref curY, ref unselectedHeight, adding: true, containingRect);
+            DrawSection(rect, libraryGenepacks, "DDJY_GenepackLibrary".Translate(), ref curY, ref unselectedHeight, adding: true, containingRect);
             if ((int)Event.current.type == 8)
             {
                 scrollHeight = curY;
@@ -267,7 +267,7 @@ namespace DDJY
                 List<FloatMenuOption> list = new List<FloatMenuOption>();
                 list.Add(new FloatMenuOption("EjectGenepackFromGeneBank".Translate(), delegate
                 {
-                    CompGenepackContainer geneBankHoldingPack = TransmutationCircle.TryGetComp<CompGeneAssembler>().GetGeneBankHoldingPack(genepack);
+                    CompGenepackContainer geneBankHoldingPack = compGeneAssembler.GetGeneBankHoldingPack(genepack);
                     if (geneBankHoldingPack != null)
                     {
                         ThingWithComps parent = geneBankHoldingPack.parent;
@@ -282,7 +282,7 @@ namespace DDJY
                             libraryGenepacks.Clear();
                             //unpoweredGenepacks.Clear();
                             matchingGenepacks.Clear();
-                            libraryGenepacks.AddRange(TransmutationCircle.TryGetComp<CompGeneAssembler>().GetGenepacks(includePowered: true, includeUnpowered: true));
+                            libraryGenepacks.AddRange(compGeneAssembler.GetGenepacks(includePowered: true, includeUnpowered: true));
                             //unpoweredGenepacks.AddRange(geneAssembler.TryGetComp<CompGeneAssembler>().GetGenepacks(includePowered: false, includeUnpowered: true));
                             libraryGenepacks.SortGenepacks();
                             //unpoweredGenepacks.SortGenepacks();
@@ -355,38 +355,6 @@ namespace DDJY
             }
         }
         
-        //绘制底部的按钮,有关基因重组持续时间
-        //protected override void DoBottomButtons(Rect rect)
-        //{
-        //    base.DoBottomButtons(rect);
-        //    if (selectedGenepacks.Any())
-        //    {
-        //        int numTicks = Mathf.RoundToInt((float)Mathf.RoundToInt(GeneTuning.ComplexityToCreationHoursCurve.Evaluate(gcx) * 2500f) / TransmutationCircle.GetStatValue(StatDefOf.AssemblySpeedFactor));
-        //        Rect rect2 = new Rect(rect.center.x, rect.y, rect.width / 2f - GeneCreationDialogBase.ButSize.x - 10f, GeneCreationDialogBase.ButSize.y);
-        //        TaggedString label;
-        //        TaggedString taggedString;
-        //        if (arc > 0 && !ResearchProjectDefOf.Archogenetics.IsFinished)
-        //        {
-        //            label = ("MissingRequiredResearch".Translate() + ": " + ResearchProjectDefOf.Archogenetics.LabelCap).Colorize(ColorLibrary.RedReadable);
-        //            taggedString = "MustResearchProject".Translate(ResearchProjectDefOf.Archogenetics);
-        //        }
-        //        else
-        //        {
-        //            label = "RecombineDuration".Translate() + ": " + numTicks.ToStringTicksToPeriod();
-        //            taggedString = "RecombineDurationDesc".Translate();
-        //        }
-
-        //        Text.Anchor = (TextAnchor)3;
-        //        Widgets.Label(rect2, label);
-        //        Text.Anchor = (TextAnchor)0;
-        //        if (Mouse.IsOver(rect2))
-        //        {
-        //            Widgets.DrawHighlight(rect2);
-        //            TooltipHandler.TipRegion(rect2, taggedString);
-        //        }
-        //    }
-        //}
-        
         //是否可以执行“接受”操作
         protected override bool CanAccept()
         {
@@ -447,6 +415,7 @@ namespace DDJY
             return false;
         }
 
+        //搜索过滤器
         protected override void UpdateSearchResults()
         {
             quickSearchWidget.noResultsMatched = false;
