@@ -372,9 +372,9 @@ namespace DDJY
                 return false;
             }
 
-            if (arc > 0 && !ResearchProjectDefOf.Archogenetics.IsFinished)
+            if (arc > 0 && !DDJY_ResearchProjectDefOf.DDJY_ArchiteAlchemy.IsFinished)
             {
-                Messages.Message("AssemblingRequiresResearch".Translate(ResearchProjectDefOf.Archogenetics), null, MessageTypeDefOf.RejectInput, historical: false);
+                Messages.Message("AssemblingRequiresResearch".Translate(DDJY_ResearchProjectDefOf.DDJY_ArchiteAlchemy), null, MessageTypeDefOf.RejectInput, historical: false);
                 return false;
             }
 

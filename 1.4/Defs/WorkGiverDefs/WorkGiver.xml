@@ -2,7 +2,7 @@
 <Defs>
   <WorkGiverDef>
     <defName>DDJY_CarryToTransmutationCircle</defName>
-    <label>carry to building</label>
+    <label>carry to TransmutationCircle</label>
     <giverClass>DDJY.WorkGiver_CarryToTransmutationCircle</giverClass>
     <workType>Hauling</workType>
     <verb>extract genes</verb>

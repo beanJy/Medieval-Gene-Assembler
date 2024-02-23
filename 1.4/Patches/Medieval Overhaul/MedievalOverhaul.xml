@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+    <Operation Class="PatchOperationSequence">
+        <operations MayRequire="dankpyon.medieval.overhaul">
+          <li Class="PatchOperationAdd">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_Alchemy"]/prerequisites</xpath>
+            <value>
+              <li>DankPyon_Alchemy</li>
+            </value>
+          </li>
+          <li Class="PatchOperationAdd">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_Alchemy"]</xpath>
+            <value>
+                <tab>DankPyon_MedievalResearchTab</tab>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_Alchemy"]/techLevel</xpath>
+            <value>
+                <techLevel>Medieval</techLevel>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_Alchemy"]/researchViewX</xpath>
+            <value>
+                <researchViewX>15</researchViewX>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_Alchemy"]/researchViewY</xpath>
+            <value>
+                <researchViewY>5.4</researchViewY>
+            </value>
+          </li>
+          <li Class="PatchOperationAdd">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteAlchemy"]</xpath>
+            <value>
+                <tab>DankPyon_MedievalResearchTab</tab>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteAlchemy"]/techLevel</xpath>
+            <value>
+                <techLevel>Medieval</techLevel>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteAlchemy"]/researchViewX</xpath>
+            <value>
+                <researchViewX>16</researchViewX>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteAlchemy"]/researchViewY</xpath>
+            <value>
+                <researchViewY>5.4</researchViewY>
+            </value>
+          </li>
+        </operations>
+      </Operation>
+</Patch>

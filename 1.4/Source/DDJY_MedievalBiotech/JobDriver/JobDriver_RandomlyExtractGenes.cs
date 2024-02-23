@@ -70,7 +70,6 @@ namespace DDJY
 
                 genesToAdd.Add(result.def);
             }
-
             if (genesToAdd.Any())
             {
                 genepack.Initialize(genesToAdd);
@@ -83,6 +82,7 @@ namespace DDJY
 
             if (genesToAdd.Any())
             {
+                GeneUtility.ExtractXenogerm(containedPawn, Mathf.RoundToInt(60000f * GeneTuning.GeneExtractorRegrowingDurationDaysRange.RandomInRange));    
                 GenPlace.TryPlaceThing(genepack, intVec, base.Map, ThingPlaceMode.Near);
                 //移除身体器官
                 TransmutationCircle.GetComp<CompRemovePart>()?.RandomReMoveNoVitalsParts(containedPawn);

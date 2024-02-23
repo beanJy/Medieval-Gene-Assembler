@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DDJY</RootNamespace>
-    <AssemblyName>DDJY_MedievalBiotech</AssemblyName>
+    <AssemblyName>DDJY_MedievalGeneAssembler</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -69,6 +69,7 @@
     <Compile Include="Defs\DDJY_BodyPartDefOf.cs" />
     <Compile Include="Defs\DDJY_EffecterDefOf.cs" />
     <Compile Include="Defs\DDJY_JobDefOf.cs" />
+    <Compile Include="Defs\DDJY_ResearchProjectDefOf.cs" />
     <Compile Include="Defs\DDJY_ThingDefOf.cs" />
     <Compile Include="Defs\DDJY_WorkGiverDefOf.cs" />
     <Compile Include="JobDriver\JobDriver_CarryGenepackToContainer.cs" />

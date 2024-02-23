@@ -2,14 +2,28 @@
 <Defs>
     <ResearchProjectDef>
         <defName>DDJY_Alchemy</defName>
-        <label>炼金术</label>
-        <description>Sow the local biome's natural trees in your fields.</description>
-        <baseCost>3000</baseCost>
+        <label>Alchemy</label>
+        <description>Alchemy</description>
+        <baseCost>2000</baseCost>
         <techLevel>Neolithic</techLevel>
-          <researchViewX>0.00</researchViewX>
-          <researchViewY>4.90</researchViewY>
+        <researchViewX>0.00</researchViewX>
+        <researchViewY>4.90</researchViewY>
+        <prerequisites></prerequisites>
         <tags>
           <li>TribalStart</li>
         </tags>
+      </ResearchProjectDef>
+
+      <ResearchProjectDef>
+        <defName>DDJY_ArchiteAlchemy</defName>
+        <label>ArchiteAlchemy</label>
+        <description>ArchiteAlchemy</description>
+        <techLevel>Neolithic</techLevel>
+        <baseCost>2500</baseCost>
+        <researchViewX>1.00</researchViewX>
+        <researchViewY>4.90</researchViewY>
+        <prerequisites>
+          <li>DDJY_Alchemy</li>
+        </prerequisites>
       </ResearchProjectDef>
 </Defs>

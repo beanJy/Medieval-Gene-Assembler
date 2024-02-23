@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <EjectAllDesc>将所有保存的灵魂石弹出到地上。</EjectAllDesc>
+    <GenepacksStored>已保存的灵魂石</GenepacksStored>
+    <AllowAllGenepacks>允许所有灵魂石</AllowAllGenepacks> 
+    <AllowAllGenepacksDesc>是否允许殖民者将任何灵魂石自动存储到这个容器中。如果你想仅指定特定的灵魂石应该被储存在这里，请关闭这个选项。</AllowAllGenepacksDesc> 
+    <ContainedGenepacksDesc>当前在此容器内的灵魂石。</ContainedGenepacksDesc> 
+    <GenepacksToLoadDesc>被指定装载至此容器的灵魂石。</GenepacksToLoadDesc> 
+    <GenepacksIgnoredDesc>不在此容器内的未被指定装载的灵魂石。</GenepacksIgnoredDesc> 
+    <GenepacksToLoad>装载灵魂石</GenepacksToLoad> 
+    <GenepacksToIgnore>忽略灵魂石</GenepacksToIgnore> 
+    <EjectGenepackDesc>从此容器内弹出灵魂石。</EjectGenepackDesc> 
+</LanguageData>

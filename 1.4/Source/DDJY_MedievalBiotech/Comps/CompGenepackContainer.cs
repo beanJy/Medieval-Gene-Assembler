@@ -15,7 +15,7 @@ namespace DDJY
         [Unsaved(false)]
         private List<Genepack> tmpGenepacks = new List<Genepack>();
 
-        private static readonly CachedTexture EjectTex = new CachedTexture("UI/Gizmos/EjectAll");
+        private static readonly CachedTexture EjectTex = new CachedTexture("UI/DDJY_EjectAll");
 
         public CompProperties_GenepackContainer Props => (CompProperties_GenepackContainer)props;
 

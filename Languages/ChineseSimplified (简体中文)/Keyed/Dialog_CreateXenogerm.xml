@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <DDJY_StartCombining>开始融合</DDJY_StartCombining>
+    <DDJY_SelectedGenepacks>已选择的灵魂</DDJY_SelectedGenepacks>
+    <AssemblingRequiresResearch>使用超凡灵药融合灵魂需要{0_label}研究项目。</AssemblingRequiresResearch>
+    <DDJY_GenepackLibrary>灵魂祭坛</DDJY_GenepackLibrary>
+    <EjectGenepackFromGeneBank>从灵魂祭坛祭坛弹出灵魂石</EjectGenepackFromGeneBank>
+    <GeneWillBeRandomChosen>对于每个个体，将随机选择以下灵魂中的一个为显性灵魂</GeneWillBeRandomChosen>
+    <GeneOneActive>在下列灵魂中，只有一个会表达，其他的将被抑制</GeneOneActive>
+    <MessageNoSelectedGenepacks>没有选择灵魂。</MessageNoSelectedGenepacks>
+    <ComplexityTooHighToCreateXenogerm>所选灵魂的总代谢效率不能高于{MAX}，但目前有{AMOUNT}。</ComplexityTooHighToCreateXenogerm>
+    <NotEnoughArchites>没有足够的超凡胶囊。</NotEnoughArchites>
+    <MissingGenepackForXenogerm>{NAME}模板缺少灵魂石。</MissingGenepackForXenogerm>
+    <MissingGenepacksForXenogerm>{NAME}模板缺少{COUNT}x灵魂石。</MissingGenepacksForXenogerm>
+    <ArchitesRequired>超凡灵药</ArchitesRequired>
+    <ArchitesRequiredDesc>一种神奇的药水，十分罕见，与超凡灵魂石一起可以融合出强大的灵魂。</ArchitesRequiredDesc>
+</LanguageData>

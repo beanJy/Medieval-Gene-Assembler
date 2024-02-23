@@ -58,9 +58,9 @@ namespace DDJY
         //取消图标
         private static readonly Texture2D CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
         //随机提取图标
-        private static readonly Texture2D RandomlyExtractGenesIcon = ContentFinder<Texture2D>.Get("UI/RandomlyExtractGenesIcon");
+        private static readonly Texture2D RandomlyExtractGenesIcon = ContentFinder<Texture2D>.Get("UI/DDJY_RandomlyExtractGenesIcon");
         //融合灵魂图标
-        private static readonly Texture2D RecombineIcon = ContentFinder<Texture2D>.Get("UI/Gizmos/RecombineGenes");
+        private static readonly Texture2D AssembleGenesIcon = ContentFinder<Texture2D>.Get("UI/DDJY_AssembleGenesIcon");
 
         //人物的需求暂停
         public override bool IsContentsSuspended => false;
@@ -443,7 +443,7 @@ namespace DDJY
             Command_Action command_Action4 = new Command_Action();
             command_Action4.defaultLabel = "DDJY_AssembleGenes".Translate();
             command_Action4.defaultDesc = "DDJY_AssembleGenesDesc".Translate();
-            command_Action4.icon = RecombineIcon;
+            command_Action4.icon = AssembleGenesIcon;
             command_Action4.activateSound = SoundDefOf.Designate_Cancel;
             command_Action4.action = delegate
             {

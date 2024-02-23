@@ -404,7 +404,7 @@ namespace DDJY
             }
             else if (!GetGenepacks(includePowered: true, includeUnpowered: false).Any())
             {
-                command_Action.Disable("CannotUseReason".Translate("NoGenepacksAvailable".Translate().CapitalizeFirst()));
+                command_Action.Disable("CannotUseReason".Translate("NoGenepacksAvailabel".Translate().CapitalizeFirst()));
             }
 
             yield return command_Action;

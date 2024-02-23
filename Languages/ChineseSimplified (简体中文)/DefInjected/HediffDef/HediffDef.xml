@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+    <XenogermReplicating.label>灵魂融合</XenogermReplicating.label>
+    <XenogermReplicating.description>此人的灵魂正在融合。这个过程对健康没有任何直接影响。但是，在灵魂融合的过程中提取此人灵魂将会导致其死亡。</XenogermReplicating.description>
+    <XenogermLossShock.label>灵魂缺失冲击</XenogermLossShock.label>
+    <XenogermLossShock.description>此人的灵魂最近被提取，新陈代谢系统和荷尔蒙稳定被破坏，导致其暂时虚弱、昏昏欲睡，免疫系统进入衰弱状态。</XenogermLossShock.description>
+</LanguageData>
