@@ -11,5 +11,9 @@
   <DDJY_NobodyHostCeremony>没有合适的主持人</DDJY_NobodyHostCeremony>
   <DDJY_StartCombining>开始融合</DDJY_StartCombining>
   <DDJY_SelectedGenepacks>已选择的灵魂</DDJY_SelectedGenepacks>
-  <DDJY_GenepackLibrary>灵魂库</DDJY_GenepackLibrary>
+  <DDJY_GenepackLibrary>祭坛</DDJY_GenepackLibrary>
+  <EjectGenepackFromGeneBank>从祭坛弹出魂晶石</EjectGenepackFromGeneBank>
+  <DDJY_XenogermReplicating>{0}的灵魂正在融合</DDJY_XenogermReplicating>
+  <ConfirmExtractXenogermWillKill>警告：{PAWN_nameDef}的灵魂正在融合。在{PAWN_possessive}灵魂融合完成之前提取灵魂它们将杀死{PAWN_objective}。\n\n你确定要继续吗？</ConfirmExtractXenogermWillKill>
+  <MessageXenogermCancelledMissingPack>{0_labelShort}的灵魂融合仪式被取消：缺失必须的魂晶石。</MessageXenogermCancelledMissingPack>
 </LanguageData>

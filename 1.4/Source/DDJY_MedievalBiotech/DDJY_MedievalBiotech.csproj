@@ -62,20 +62,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Building_AlchemyTable.cs" />
+    <Compile Include="Comps\CompDarklightOverlay.cs" />
     <Compile Include="Comps\CompGeneAssembler.cs" />
+    <Compile Include="Comps\CompGenepackContainer.cs" />
     <Compile Include="Comps\CompRemovePart.cs" />
     <Compile Include="Defs\DDJY_BodyPartDefOf.cs" />
+    <Compile Include="Defs\DDJY_EffecterDefOf.cs" />
     <Compile Include="Defs\DDJY_JobDefOf.cs" />
     <Compile Include="Defs\DDJY_ThingDefOf.cs" />
     <Compile Include="Defs\DDJY_WorkGiverDefOf.cs" />
-    <Compile Include="JobDriver\JobDriver_GoToTransmutationCircle.cs" />
+    <Compile Include="JobDriver\JobDriver_CarryGenepackToContainer.cs" />
     <Compile Include="JobDriver\JobDriver_HaulToContainer.cs" />
     <Compile Include="Window\Dialog_CreateXenogerm.cs" />
     <Compile Include="JobDriver\JobDriver_CreateXenogerm.cs" />
     <Compile Include="JobDriver\JobDriver_RandomlyExtractGenes.cs" />
     <Compile Include="Building_TransmutationCircle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Window\ITab_ContentsGenepackHolder.cs" />
     <Compile Include="WorkGiver\WorkGiver_CarryToTransmutationCircle.cs" />
+    <Compile Include="WorkGiver\WorkGiver_HaulToGeneBank.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

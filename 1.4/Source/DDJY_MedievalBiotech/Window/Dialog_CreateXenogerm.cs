@@ -13,7 +13,7 @@ namespace DDJY
     {
         private Building_TransmutationCircle TransmutationCircle;
 
-        private Action<List<Genepack>, int, string, XenotypeIconDef> StarAction;
+        private Action<List<Genepack>, int, string, XenotypeIconDef, Pawn> StarAction;
 
         private List<Genepack> libraryGenepacks = new List<Genepack>();
 
@@ -22,6 +22,8 @@ namespace DDJY
         private HashSet<Genepack> matchingGenepacks = new HashSet<Genepack>();
 
         private List<GeneDef> tmpGenes = new List<GeneDef>();
+
+        private Pawn acter;
 
         private CompGeneAssembler compGeneAssembler => TransmutationCircle.TryGetComp<CompGeneAssembler>();
 
@@ -50,10 +52,11 @@ namespace DDJY
         }
 
         //初始化Class
-        public Dialog_CreateXenogerm(Building_TransmutationCircle TransmutationCircle, Action<List<Genepack>, int, string, XenotypeIconDef> StarAction)
+        public Dialog_CreateXenogerm(Building_TransmutationCircle TransmutationCircle, Pawn acter, Action<List<Genepack>, int, string, XenotypeIconDef, Pawn> StarAction)
         {
             this.TransmutationCircle = TransmutationCircle;
             this.StarAction = StarAction;
+            this.acter = acter;
             maxGCX = compGeneAssembler.MaxComplexity();
             libraryGenepacks.AddRange(compGeneAssembler.GetGenepacks(includePowered: true, includeUnpowered: true));
             xenotypeName = string.Empty;
@@ -87,7 +90,7 @@ namespace DDJY
         //启动基因组装过程，播放开始重新组合的声音，并关闭当前的窗口。 调用 geneAssembler.star（）启动
         private void StartAssembly()
         {
-            StarAction(selectedGenepacks, arc, xenotypeName?.Trim(), iconDef);
+            StarAction(selectedGenepacks, arc, xenotypeName?.Trim(), iconDef, acter);
             SoundDefOf.StartRecombining.PlayOneShotOnCamera();
             Close(doCloseSound: false);
         }

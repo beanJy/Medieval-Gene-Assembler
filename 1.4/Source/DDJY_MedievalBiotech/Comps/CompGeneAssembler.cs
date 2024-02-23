@@ -109,10 +109,10 @@ namespace DDJY
         }
 
         //开始
-        public void Start(List<Genepack> packs, int architesRequired, string xenotypeName, XenotypeIconDef iconDef)
+        public void Start(List<Genepack> packs, int architesRequired, string xenotypeName, XenotypeIconDef iconDef, Pawn acter)
         {
             Reset();
-            this.actor = transmutationCircle.actor;
+            this.actor = acter;
             this.genepacksToRecombine = packs;
             this.architesRequired = architesRequired;
             this.xenotypeName = xenotypeName;
@@ -213,6 +213,16 @@ namespace DDJY
         private Thing FindArchiteCapsule(Pawn pawn)
         {
             return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(ThingDefOf.ArchiteCapsule), PathEndMode.ClosestTouch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false, false, false), 9999f, (Thing x) => !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false), null, 0, -1, false, RegionType.Set_Passable, false);
+        }
+
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            Scribe_References.Look(ref actor, "DDJY_CompGeneAssembler_actor");
+            Scribe_Values.Look(ref xenotypeName, "DDJY_CompGeneAssembler_xenotypeName");
+            Scribe_Values.Look<int>(ref architesRequired, "DDJY_CompGeneAssembler_architesRequired", 0);
+            Scribe_Collections.Look(ref genepacksToRecombine, "DDJY_CompGeneAssembler_genepacksToRecombine", LookMode.Reference);
+            Scribe_Defs.Look(ref iconDef, "DDJY_CompGeneAssembler_iconDef");
         }
     }
 

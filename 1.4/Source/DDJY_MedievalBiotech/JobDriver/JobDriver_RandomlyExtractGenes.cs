@@ -94,11 +94,11 @@ namespace DDJY
                 {
                     return 0f;
                 }
-
-                if (g.def.biostatArc > 0)
-                {
-                    return 0f;
-                }
+                ////超凡基因
+                //if (g.def.biostatArc > 0)
+                //{
+                //    return 0f;
+                //}
 
                 if (g.def.endogeneCategory == EndogeneCategory.Melanin)
                 {

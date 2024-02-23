@@ -57,6 +57,10 @@ namespace DDJY
         
         //取消图标
         private static readonly Texture2D CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
+        //随机提取图标
+        private static readonly Texture2D RandomlyExtractGenesIcon = ContentFinder<Texture2D>.Get("UI/RandomlyExtractGenesIcon");
+        //融合灵魂图标
+        private static readonly Texture2D RecombineIcon = ContentFinder<Texture2D>.Get("UI/Gizmos/RecombineGenes");
 
         //人物的需求暂停
         public override bool IsContentsSuspended => false;
@@ -113,7 +117,8 @@ namespace DDJY
             if (IsHasActor())
             {
                 if (ContainedPawn == null)
-                {   
+                {
+                    actor.jobs.EndCurrentJob(JobCondition.InterruptForced);
                     Cancel();
                     return;
                 }
@@ -121,7 +126,7 @@ namespace DDJY
             }
             else
             {
-                if (selectedPawn != null && selectedPawn.Dead)
+                if (selectedPawn != null && (selectedPawn.Dead))
                 {
                     Cancel();
                 }
@@ -193,17 +198,7 @@ namespace DDJY
         // 选择角色
         protected override void SelectPawn(Pawn pawn)
         {
-            if (pawn.health.hediffSet.HasHediff(HediffDefOf.XenogermReplicating))
-            {
-                Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmExtractXenogermWillKill".Translate(pawn.Named("PAWN")), delegate
-                {
-                    base.SelectPawn(pawn);
-                }));
-            }
-            else
-            {
-                base.SelectPawn(pawn);
-            }
+            base.SelectPawn(pawn);
         }
         
         // 生成基因提取器的浮动菜单选项
@@ -275,6 +270,10 @@ namespace DDJY
                     {
                         commandRandomlyExtractGenes.Disable(CanExtractGenes(selectedPawn).Reason);
                     }
+                    if (ContainedPawn.health.hediffSet.HasHediff(HediffDefOf.XenogermReplicating))
+                    {
+                        commandAssembleGenes.Disable("DDJY_XenogermReplicating".Translate(ContainedPawn.Named("PAWN")));
+                    }
                     yield return commandRandomlyExtractGenes;
                     yield return commandAssembleGenes;
                 }
@@ -324,7 +323,7 @@ namespace DDJY
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_References.Look(ref actor, "DDJY_actor");
+            Scribe_References.Look(ref actor, "DDJY_Building_TransmutationCircle_actor");
         }
         
         //能否提取基因
@@ -393,7 +392,7 @@ namespace DDJY
             Command_Action command_Action3 = new Command_Action();
             command_Action3.defaultLabel = "DDJY_CommandRandomlyExtractGenes".Translate();
             command_Action3.defaultDesc = "DDJY_CommandRandomlyExtractGenesDesc".Translate();
-            command_Action3.icon = CancelIcon;
+            command_Action3.icon = RandomlyExtractGenesIcon;
             command_Action3.activateSound = SoundDefOf.Designate_Cancel;
             command_Action3.action = delegate
             {
@@ -413,7 +412,17 @@ namespace DDJY
                                 string text = "DDJY_HostCeremony".Translate(item.LabelShortCap);
                                 list.Add(new FloatMenuOption(text, delegate
                                 {
-                                    item.jobs.TryTakeOrderedJob(JobMaker.MakeJob(DDJY_JobDefOf.DDJY_RandomlyExtractGenes, this, ContainedPawn), JobTag.Misc);
+                                    if (ContainedPawn.health.hediffSet.HasHediff(HediffDefOf.XenogermReplicating))
+                                    {
+                                        Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmExtractXenogermWillKill".Translate(ContainedPawn.Named("PAWN")), delegate
+                                        {
+                                            item.jobs.TryTakeOrderedJob(JobMaker.MakeJob(DDJY_JobDefOf.DDJY_RandomlyExtractGenes, this, ContainedPawn), JobTag.Misc);
+                                        }));
+                                    }
+                                    else
+                                    {
+                                        item.jobs.TryTakeOrderedJob(JobMaker.MakeJob(DDJY_JobDefOf.DDJY_RandomlyExtractGenes, this, ContainedPawn), JobTag.Misc);
+                                    }
                                 }, item, Color.white));
                             }
                         }
@@ -434,7 +443,7 @@ namespace DDJY
             Command_Action command_Action4 = new Command_Action();
             command_Action4.defaultLabel = "DDJY_AssembleGenes".Translate();
             command_Action4.defaultDesc = "DDJY_AssembleGenesDesc".Translate();
-            command_Action4.icon = CancelIcon;
+            command_Action4.icon = RecombineIcon;
             command_Action4.activateSound = SoundDefOf.Designate_Cancel;
             command_Action4.action = delegate
             {
@@ -449,12 +458,16 @@ namespace DDJY
                             {
                                 list.Add(new FloatMenuOption(item.LabelShortCap + ": " + "DownedLower".Translate(), null, item, Color.white));
                             }
+                            else if (item.InMentalState)
+                            {
+                                list.Add(new FloatMenuOption(item.LabelShortCap + ": " + item.MentalStateDef.label, null, item, Color.white));
+                            }
                             else
                             {
                                 string text = "DDJY_HostCeremony".Translate(item.LabelShortCap);
                                 list.Add(new FloatMenuOption(text, delegate
                                 {
-                                    item.jobs.TryTakeOrderedJob(JobMaker.MakeJob(DDJY_JobDefOf.DDJY_GoToTransmutationCircle, this), JobTag.Misc);
+                                    Find.WindowStack.Add(new Dialog_CreateXenogerm(this, item, compGeneAssembler.Start));
                                 }, item, Color.white));
                             }
                         }
@@ -466,6 +479,7 @@ namespace DDJY
                 }
                 Find.WindowStack.Add(new FloatMenu(list));
             };
+
             return command_Action4;
         }
 
@@ -495,16 +509,22 @@ namespace DDJY
                         }
                         else
                         {
-                            Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.XenogermReplicating);
-                            if (firstHediffOfDef != null)
-                            {
-                                text = text + " (" + firstHediffOfDef.LabelBase + ", " + firstHediffOfDef.TryGetComp<HediffComp_Disappears>().ticksToDisappear.ToStringTicksToPeriod(allowSeconds: true, shortForm: true).Colorize(ColoredText.SubtleGrayColor) + ")";
+                            if (pawn.InMentalState) {
+                                list.Add(new FloatMenuOption(text+" ("+ pawn.MentalStateDef.label + ")", null, pawn, Color.white));
                             }
-
-                            list.Add(new FloatMenuOption(text, delegate
+                            else
                             {
-                                SelectPawn(pawn);
-                            }, pawn, Color.white));
+                                Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.XenogermReplicating);
+                                if (firstHediffOfDef != null)
+                                {
+                                    text = text + " (" + firstHediffOfDef.LabelBase + ", " + firstHediffOfDef.TryGetComp<HediffComp_Disappears>().ticksToDisappear.ToStringTicksToPeriod(allowSeconds: true, shortForm: true).Colorize(ColoredText.SubtleGrayColor) + ")";
+                                }
+
+                                list.Add(new FloatMenuOption(text, delegate
+                                {
+                                    SelectPawn(pawn);
+                                }, pawn, Color.white));
+                            }
                         }
                     }
                 }

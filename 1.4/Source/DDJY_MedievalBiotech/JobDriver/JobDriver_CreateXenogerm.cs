@@ -33,7 +33,7 @@ namespace DDJY
         {
             TransmutationCircle.actor = pawn;
             pawn.drafter.Drafted = false;
-            packsList = TransmutationCircle.TryGetComp<CompGeneAssembler>().genepacksToRecombine;
+            packsList = compGeneAssembler.genepacksToRecombine;
             this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
             //移动toil
             yield return Toils_Goto.GotoThing(TargetIndex.A, TransmutationCircle.InteractionCell + new IntVec3(0, 0, 1).RotatedBy(TransmutationCircle.Rotation));
@@ -51,7 +51,13 @@ namespace DDJY
             {
                 return !CheckAllContainersValid();
             });
+            Toils_Wait.AddFinishAction(delegate {
+                ConnectedFacilities.Any(
+                    i => i.TryGetComp<CompDarklightOverlay>().IsActive = false
+                ); ;
+            });
             Toils_Wait.defaultCompleteMode = ToilCompleteMode.Delay;
+            //Toils_Wait.WithEffect(DDJY_EffecterDefOf.DDJY_Effecter_TransmutationCircle, TargetIndex.A);
             Toils_Wait.WithProgressBar(TargetIndex.B, delegate { return 1f - (float)Toils_Wait.actor.jobs.curDriver.ticksLeftThisToil / 3000; }, false, -0.5f, false);
             yield return Toils_Wait;
 
@@ -67,10 +73,13 @@ namespace DDJY
 
         //使用异种注入器
         private void Finish()
-        {   
-            xenogerm = (Xenogerm)ThingMaker.MakeThing(ThingDefOf.Xenogerm);
-            xenogerm.Initialize(packsList, compGeneAssembler.xenotypeName, compGeneAssembler.iconDef);
-            GeneUtility.ImplantXenogermItem(TransmutationCircle.ContainedPawn, xenogerm);
+        {
+            if (!packsList.NullOrEmpty())
+            {
+                xenogerm = (Xenogerm)ThingMaker.MakeThing(ThingDefOf.Xenogerm);
+                xenogerm.Initialize(packsList, compGeneAssembler.xenotypeName, compGeneAssembler.iconDef);
+                GeneUtility.ImplantXenogermItem(TransmutationCircle.ContainedPawn, xenogerm);
+            }
             if (compGeneAssembler.architesRequired > 0)
             {
                 for (int i = compGeneAssembler.innerContainer.Count - 1; i >= 0; i--)
@@ -93,7 +102,6 @@ namespace DDJY
         {
             if (packsList.NullOrEmpty())
             {
-                Log.Message("packsList.NullOrEmpty");
                 return false;
             }
 
@@ -104,8 +112,10 @@ namespace DDJY
                 for (int j = 0; j < connectedFacilities.Count; j++)
                 {
                     CompGenepackContainer compGenepackContainer = connectedFacilities[j].TryGetComp<CompGenepackContainer>();
+                    CompDarklightOverlay compDarklightOverlay = connectedFacilities[j].TryGetComp<CompDarklightOverlay>();
                     if (compGenepackContainer != null && compGenepackContainer.ContainedGenepacks.Contains(packsList[i]))
                     {
+                        compDarklightOverlay.IsActive = true;
                         flag = true;
                         break;
                     }

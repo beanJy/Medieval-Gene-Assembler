@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <ResearchProjectDef>
+        <defName>DDJY_Alchemy</defName>
+        <label>炼金术</label>
+        <description>Sow the local biome's natural trees in your fields.</description>
+        <baseCost>3000</baseCost>
+        <techLevel>Neolithic</techLevel>
+          <researchViewX>0.00</researchViewX>
+          <researchViewY>4.90</researchViewY>
+        <tags>
+          <li>TribalStart</li>
+        </tags>
+      </ResearchProjectDef>
+</Defs>

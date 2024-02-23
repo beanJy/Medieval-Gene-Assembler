@@ -13,7 +13,7 @@ namespace DDJY
 
         public static JobDef DDJY_CreateXenogerm;
         public static JobDef DDJY_RandomlyExtractGenes;
-        public static JobDef DDJY_GoToTransmutationCircle;
         public static JobDef DDJY_HaulToContainer;
+        public static JobDef DDJY_CarryGenepackToContainer;
     }
 }

@@ -31,7 +31,7 @@
         <designationCategory>Biotech</designationCategory>
         <uiOrder>2100</uiOrder>
         <researchPrerequisites>
-          <li>Xenogermination</li>
+          <li>DDJY_Alchemy</li>
         </researchPrerequisites>
         <building>
           <buildingTags>
@@ -58,18 +58,86 @@
           </li>
           <li Class="CompProperties_AffectedByFacilities">
             <linkableFacilities>
-              <li>GeneBank</li>
-              <li>GeneProcessor</li>
+              <li>DDJY_GeneBank</li>
             </linkableFacilities>
           </li>
         </comps>
-        <!-- <comps>
-          <li Class="CompProperties_Power">
-            <compClass>CompPowerTrader</compClass>
-            <basePowerConsumption>200</basePowerConsumption>
-            <idlePowerDraw>50</idlePowerDraw>
-          </li>
-          <li Class="CompProperties_Flickable"/>
-        </comps> -->
+    </ThingDef>
+
+
+    <ThingDef Name="DDJY_GeneBuildingBase" ParentName="BuildingBase" Abstract="True">
+      <designationCategory>Biotech</designationCategory>
+      <uiOrder>2100</uiOrder>
+      <pathCost>42</pathCost>
+      <building>
+        <ai_chillDestination>false</ai_chillDestination>
+        <buildingTags>
+          <li>Biotech</li>
+        </buildingTags>
+      </building>
+      <placeWorkers>
+        <li>PlaceWorker_ShowFacilitiesConnections</li>
+      </placeWorkers>
+      <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+      <comps>
+        <li Class="CompProperties_Forbiddable"/>
+      </comps>
+    </ThingDef>
+
+    <!-- 基因储存器 -->
+    <ThingDef ParentName="DDJY_GeneBuildingBase">
+      <defName>DDJY_GeneBank</defName>
+      <label>测试</label>
+      <description>This building can store genepacks and make them usable to create new xenogerms, when placed near a gene assembler. Large gene libraries require many gene banks.\n\nWhen powered, gene banks prevent genepacks from deteriorating and will slowly repair deterioration.</description>
+      <graphicData>
+        <texPath>Things/Building/huopen</texPath>
+        <graphicClass>Graphic_Multi</graphicClass>
+        <drawSize>(2, 2)</drawSize>
+        <shaderType>CutoutComplex</shaderType>
+        <drawOffset>(0,0,0.18)</drawOffset>
+      </graphicData>
+      <tickerType>Normal</tickerType>
+      <drawerType>MapMeshAndRealTime</drawerType>
+      <passability>PassThroughOnly</passability>
+      <canOverlapZones>false</canOverlapZones>
+      <defaultPlacingRot>South</defaultPlacingRot>
+      <rotatable>false</rotatable>
+      <size>(1, 1)</size>
+      <stuffCategories>
+        <li>Stony</li>
+      </stuffCategories>
+      <costStuffCount>50</costStuffCount>
+      <statBases>
+        <MaxHitPoints>200</MaxHitPoints>
+        <WorkToBuild>5000</WorkToBuild>
+        <Mass>20</Mass>
+        <Flammability>0.5</Flammability>
+      </statBases>
+      <researchPrerequisites>
+        <li>DDJY_Alchemy</li>
+      </researchPrerequisites>
+      <inspectorTabs>
+        <li>DDJY.ITab_ContentsGenepackHolder</li>
+      </inspectorTabs> 
+      <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+      <descriptionHyperlinks>
+        <ThingDef>Genepack</ThingDef>
+        <ThingDef>DDJY_TransmutationCircle</ThingDef>
+      </descriptionHyperlinks>
+      <comps>
+        <li Class="CompProperties_GenepackContainer">
+          <compClass>DDJY.CompGenepackContainer</compClass>
+          <maxCapacity>20</maxCapacity>
+        </li> 
+        <li Class="CompProperties_Facility">
+          <maxSimultaneous>100</maxSimultaneous>
+          <maxDistance>12.9</maxDistance>
+        </li>
+        <li Class="CompProperties_DarklightOverlay">
+          <compClass>DDJY.CompDarklightOverlay</compClass>
+          <fireSize>1</fireSize>
+          <offset>(0,0,0.95)</offset>
+        </li>
+      </comps>
     </ThingDef>
 </Defs>
