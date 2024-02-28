@@ -8,10 +8,10 @@
     <GeneWillBeRandomChosen>For each individual, one of the following souls will be randomly chosen as the dominant soul.</GeneWillBeRandomChosen>
     <GeneOneActive>Among the following souls, only one will be expressed, others will be suppressed.</GeneOneActive>
     <MessageNoSelectedGenepacks>No souls selected.</MessageNoSelectedGenepacks>
-    <ComplexityTooHighToCreateXenogerm>The total metabolic efficiency of the selected souls cannot exceed {MAX}, but currently it's {AMOUNT}.</ComplexityTooHighToCreateXenogerm>
     <NotEnoughArchites>Not enough Archite Potion.</NotEnoughArchites>
     <MissingGenepackForXenogerm>The {NAME} template is missing soul stone.</MissingGenepackForXenogerm>
     <MissingGenepacksForXenogerm>The {NAME} template is missing {COUNT}x soul stones.</MissingGenepacksForXenogerm>
     <ArchitesRequired>Archite Potion</ArchitesRequired>
     <ArchitesRequiredDesc>A miraculous potion, extremely rare, can fuse with the Archite Soul Stone to create a powerful soul.</ArchitesRequiredDesc>
+    <DDJY_ArchiteSoulsCannotBeInherited>Archite souls cannot be inherited</DDJY_ArchiteSoulsCannotBeInherited>
 </LanguageData>

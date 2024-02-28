@@ -77,7 +77,8 @@ namespace DDJY
             {
                 xenogerm = (Xenogerm)ThingMaker.MakeThing(ThingDefOf.Xenogerm);
                 xenogerm.Initialize(packsList, compGeneAssembler.xenotypeName, compGeneAssembler.iconDef);
-                GeneUtility.ImplantXenogermItem(TransmutationCircle.ContainedPawn, xenogerm);
+                //GeneUtility.
+                ImplantXenogermItem(TransmutationCircle.ContainedPawn, xenogerm);
                 Messages.Message("DDJY_CeremonyDone".Translate(TransmutationCircle.ContainedPawn), new LookTargets(TransmutationCircle.ContainedPawn), MessageTypeDefOf.PositiveEvent);
             }
             if (compGeneAssembler.architesRequired > 0)
@@ -129,5 +130,50 @@ namespace DDJY
             }
             return true;
         }
+
+        private  void ImplantXenogermItem(Pawn pawn, Xenogerm xenogerm)
+        {
+            if (!ModLister.CheckBiotech("xenogerm implantation"))
+            {
+                return;
+            }
+
+            UpdateXenogermReplication(pawn);
+            if (xenogerm.GeneSet == null || pawn.genes == null)
+            {
+                return;
+            }
+            if (compGeneAssembler.inheritable)
+            {
+                for (int num = pawn.genes.Endogenes.Count - 1; num >= 0; num--)
+                {
+                    pawn.genes.RemoveGene(pawn.genes.Endogenes[num]);
+                }
+            }
+            else
+            {
+                pawn.genes.SetXenotype(XenotypeDefOf.Baseliner);
+            }
+            pawn.genes.xenotypeName = xenogerm.xenotypeName;
+            pawn.genes.iconDef = xenogerm.iconDef;
+            foreach (GeneDef item in xenogerm.GeneSet.GenesListForReading)
+            {
+                pawn.genes.AddGene(item, xenogene: !compGeneAssembler.inheritable);
+            }
+        }
+        public static void UpdateXenogermReplication(Pawn pawn)
+        {
+            if (ModsConfig.BiotechActive)
+            {
+                Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.XenogermReplicating);
+                if (firstHediffOfDef != null)
+                {
+                    pawn.health.RemoveHediff(firstHediffOfDef);
+                }
+
+                pawn.health.AddHediff(HediffDefOf.XenogermReplicating);
+            }
+        }
+        
     }
 }

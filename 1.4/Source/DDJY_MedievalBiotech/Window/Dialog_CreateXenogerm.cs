@@ -13,8 +13,6 @@ namespace DDJY
     {
         private Building_TransmutationCircle TransmutationCircle;
 
-        private Action<List<Genepack>, int, string, XenotypeIconDef, Pawn> StarAction;
-
         private List<Genepack> libraryGenepacks = new List<Genepack>();
 
         private List<Genepack> selectedGenepacks = new List<Genepack>();
@@ -54,10 +52,9 @@ namespace DDJY
         }
 
         //初始化Class
-        public Dialog_CreateXenogerm(Building_TransmutationCircle TransmutationCircle, Pawn acter, Action<List<Genepack>, int, string, XenotypeIconDef, Pawn> StarAction)
+        public Dialog_CreateXenogerm(Building_TransmutationCircle TransmutationCircle, Pawn acter)
         {
             this.TransmutationCircle = TransmutationCircle;
-            this.StarAction = StarAction;
             this.acter = acter;
             maxGCX = compGeneAssembler.MaxComplexity();
             libraryGenepacks.AddRange(compGeneAssembler.GetGenepacks(includePowered: true, includeUnpowered: true));
@@ -65,6 +62,7 @@ namespace DDJY
             closeOnAccept = false;
             forcePause = true;
             absorbInputAroundWindow = true;
+            inheritable = false;
             searchWidgetOffsetX = GeneCreationDialogBase.ButSize.x * 2f + 4f;
             libraryGenepacks.SortGenepacks();
         }
@@ -92,7 +90,7 @@ namespace DDJY
         //启动基因组装过程，播放开始重新组合的声音，并关闭当前的窗口。 调用 geneAssembler.star（）启动
         private void StartAssembly()
         {
-            StarAction(selectedGenepacks, arc, xenotypeName?.Trim(), iconDef, acter);
+            compGeneAssembler.Start(selectedGenepacks, arc, xenotypeName?.Trim(), iconDef, inheritable, acter);
             SoundDefOf.StartRecombining.PlayOneShotOnCamera();
             Close(doCloseSound: false);
         }
@@ -107,6 +105,7 @@ namespace DDJY
             Rect containingRect = rect2;
             containingRect.y = scrollPosition.y;
             containingRect.height = rect.height;
+
             DrawSection(rect, selectedGenepacks, "DDJY_SelectedGenepacks".Translate(), ref curY, ref selectedHeight, adding: false, containingRect);
             curY += 8f;
             DrawSection(rect, libraryGenepacks, "DDJY_GenepackLibrary".Translate(), ref curY, ref unselectedHeight, adding: true, containingRect);
@@ -122,8 +121,6 @@ namespace DDJY
         //负责绘制基因包列表，并处理基因包的选择和操作
         private void DrawSection(Rect rect, List<Genepack> genepacks, string label, ref float curY, ref float sectionHeight, bool adding, Rect containingRect)
         {
-            //IL_029c: Unknown result type (might be due to invalid IL or missing references)
-            //IL_02a2: Invalid comparison between Unknown and I4
             float curX = 4f;
             Rect rect2 = new Rect(10f, curY, rect.width - 16f - 10f, Text.LineHeight);
             Widgets.Label(rect2, label);
@@ -135,7 +132,7 @@ namespace DDJY
                 GUI.color = Color.white;
                 Text.Anchor = (TextAnchor)0;
             }
-
+            
             curY += Text.LineHeight + 3f;
             float num = curY;
             Rect rect3 = new Rect(0f, curY, rect.width, sectionHeight);
@@ -205,7 +202,6 @@ namespace DDJY
         //绘制基因包
         private bool DrawGenepack(Genepack genepack, ref float curX, float curY, float packWidth, Rect containingRect)
         {
-            //IL_0363: Unknown result type (might be due to invalid IL or missing references)
             bool result = false;
             if (genepack.GeneSet == null || genepack.GeneSet.GenesListForReading.NullOrEmpty())
             {
@@ -251,17 +247,11 @@ namespace DDJY
                     extraTooltip = ("GeneWillBeRandomChosen".Translate() + ":\n" + randomChosenGroups[gene].Select((GeneDef x) => x.label).ToLineList("  - ", capitalizeItems: true)).Colorize(ColoredText.TipSectionTitleColor);
                 }
 
-                GeneUIUtility.DrawGeneDef_NewTemp(genesListForReading[i], rect2, GeneType.Xenogene, () => extraTooltip, doBackground: false, clickable: false, overridden);
+                GeneUIUtility.DrawGeneDef_NewTemp(genesListForReading[i], rect2, this.inheritable ? GeneType.Endogene : GeneType.Xenogene, () => extraTooltip, doBackground: false, clickable: false, overridden);
                 curX += GeneCreationDialogBase.GeneSize.x + 4f;
             }
 
             Widgets.InfoCardButton(rect.xMax - 24f, rect.y + 2f, genepack);
-            //if (unpoweredGenepacks.Contains(genepack))
-            //{
-            //    Widgets.DrawBoxSolid(rect, UnpoweredColor);
-            //    TooltipHandler.TipRegion(rect, "GenepackUnusableGenebankUnpowered".Translate().Colorize(ColorLibrary.RedReadable));
-            //}
-
             if (Mouse.IsOver(rect))
             {
                 Widgets.DrawHighlight(rect);
@@ -373,6 +363,11 @@ namespace DDJY
                 Messages.Message("MessageNoSelectedGenepacks".Translate(), null, MessageTypeDefOf.RejectInput, historical: false);
                 return false;
             }
+            if (this.arc > 0 && this.inheritable)
+            {
+                Messages.Message("DDJY_ArchiteSoulsCannotBeInherited".Translate(), null, MessageTypeDefOf.RejectInput, historical: false);
+                return false;
+            }
 
             if (arc > 0 && !DDJY_ResearchProjectDefOf.DDJY_ArchiteSoulAlchemy.IsFinished)
             {
@@ -465,6 +460,20 @@ namespace DDJY
             quickSearchWidget.noResultsMatched = !matchingGenepacks.Any();
         }
 
-       
+        //可遗传按钮
+        protected override void PostXenotypeOnGUI(float curX, float curY)
+        {
+            TaggedString taggedString = "GenesAreInheritable".Translate();
+            float width = Text.CalcSize(taggedString).x + 4f + 24f;
+            Rect rect = new Rect(curX, curY, width, Text.LineHeight);
+            Widgets.CheckboxLabeled(rect, taggedString, ref this.inheritable, false, null, null, false);
+            if (Mouse.IsOver(rect))
+            {
+                Widgets.DrawHighlight(rect);
+                TooltipHandler.TipRegion(rect, "GenesAreInheritableDesc".Translate());
+            }
+            rect.y += Text.LineHeight;
+            this.postXenotypeHeight += rect.yMax - curY;
+        }
     }
 }

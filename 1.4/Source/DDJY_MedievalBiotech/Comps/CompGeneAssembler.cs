@@ -33,6 +33,9 @@ namespace DDJY
         //获取到的基因
         public List<Genepack> genepacksToRecombine;
 
+        //是否可遗传
+        public bool inheritable;
+
         //连接设备存储的基因包
         [Unsaved(false)]
         private List<Genepack> tmpGenepacks = new List<Genepack>();
@@ -109,7 +112,7 @@ namespace DDJY
         }
 
         //开始
-        public void Start(List<Genepack> packs, int architesRequired, string xenotypeName, XenotypeIconDef iconDef, Pawn acter)
+        public void Start(List<Genepack> packs, int architesRequired, string xenotypeName, XenotypeIconDef iconDef,bool inheritable, Pawn acter)
         {
             Reset();
             this.actor = acter;
@@ -117,6 +120,7 @@ namespace DDJY
             this.architesRequired = architesRequired;
             this.xenotypeName = xenotypeName;
             this.iconDef = iconDef;
+            this.inheritable = inheritable;
             SelectJob();
         }
 
@@ -129,6 +133,7 @@ namespace DDJY
             cachedComplexity = null;
             iconDef = XenotypeIconDefOf.Basic;
             architesRequired = 0;
+            inheritable = false;
         }
 
         //检查正在重组的基因是否在基因库
@@ -223,6 +228,7 @@ namespace DDJY
             Scribe_Values.Look<int>(ref architesRequired, "DDJY_CompGeneAssembler_architesRequired", 0);
             Scribe_Collections.Look(ref genepacksToRecombine, "DDJY_CompGeneAssembler_genepacksToRecombine", LookMode.Reference);
             Scribe_Defs.Look(ref iconDef, "DDJY_CompGeneAssembler_iconDef");
+            Scribe_Values.Look(ref inheritable, "DDJY_inheritable");
         }
     }
 
