@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <NamerGenepack.rulePack.rulesStrings.0>r_name->灵魂石（[geneWord][otherGenesInfo]）</NamerGenepack.rulePack.rulesStrings.0>
+  <NamerGenepack.rulePack.rulesStrings.1>otherGenesInfo(geneCount==1)-></NamerGenepack.rulePack.rulesStrings.1>
+  <NamerGenepack.rulePack.rulesStrings.2>otherGenesInfo(geneCount>=2)->+[geneCountMinusOne]</NamerGenepack.rulePack.rulesStrings.2>
+</LanguageData>

@@ -16,6 +16,7 @@
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>(5, 5)</drawSize>
         </graphicData>
+        <rotatable>false</rotatable>
         <size>(5, 5)</size>
         <descriptionHyperlinks>
           <ThingDef>DDJY_SoulAltar</ThingDef>
@@ -30,7 +31,7 @@
         <designationCategory>Biotech</designationCategory>
         <uiOrder>2100</uiOrder>
         <researchPrerequisites>
-          <li>DDJY_Alchemy</li>
+          <li>DDJY_SoulAlchemy</li>
         </researchPrerequisites>
         <building>
           <buildingTags>
@@ -118,7 +119,7 @@
         <Flammability>0.5</Flammability>
       </statBases>
       <researchPrerequisites>
-        <li>DDJY_Alchemy</li>
+        <li>DDJY_SoulAlchemy</li>
       </researchPrerequisites>
       <inspectorTabs>
         <li>DDJY.ITab_ContentsGenepackHolder</li>

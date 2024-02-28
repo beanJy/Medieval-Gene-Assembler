@@ -12,4 +12,6 @@
   <DDJY_XenogermReplicating>{0}的灵魂正在融合</DDJY_XenogermReplicating>
   <ConfirmExtractXenogermWillKill>警告：{PAWN_nameDef}的灵魂正在融合。在{PAWN_possessive}灵魂融合完成之前提取灵魂它们将杀死{PAWN_objective}。\n\n你确定要继续吗？</ConfirmExtractXenogermWillKill>
   <MessageXenogermCancelledMissingPack>{0_labelShort}的灵魂融合仪式被取消：缺失必须的灵魂石。</MessageXenogermCancelledMissingPack>
+  <DDJY_CeremonyInProgress>仪式正在进行中</DDJY_CeremonyInProgress>
+  <DDJY_CeremonyDone>{0_labelShort}的灵魂融合完成</DDJY_CeremonyDone>
 </LanguageData>

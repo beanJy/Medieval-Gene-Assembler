@@ -1,29 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
     <ResearchProjectDef>
-        <defName>DDJY_Alchemy</defName>
-        <label>Alchemy</label>
-        <description>Alchemy</description>
-        <baseCost>2000</baseCost>
-        <techLevel>Neolithic</techLevel>
+        <defName>DDJY_SoulAlchemy</defName>
+        <label>SoulAlchemy</label>
+        <description>SoulAlchemy</description>
+        <baseCost>1000</baseCost>
+        <techLevel>Medieval</techLevel>
         <researchViewX>0.00</researchViewX>
         <researchViewY>4.90</researchViewY>
         <prerequisites></prerequisites>
-        <tags>
-          <li>TribalStart</li>
-        </tags>
       </ResearchProjectDef>
 
       <ResearchProjectDef>
-        <defName>DDJY_ArchiteAlchemy</defName>
-        <label>ArchiteAlchemy</label>
+        <defName>DDJY_ArchiteSoulAlchemy</defName>
+        <label>ArchiteSoulAlchemy</label>
         <description>ArchiteAlchemy</description>
-        <techLevel>Neolithic</techLevel>
-        <baseCost>2500</baseCost>
+        <techLevel>Medieval</techLevel>
+        <baseCost>1500</baseCost>
         <researchViewX>1.00</researchViewX>
         <researchViewY>4.90</researchViewY>
         <prerequisites>
-          <li>DDJY_Alchemy</li>
+          <li>DDJY_SoulAlchemy</li>
         </prerequisites>
       </ResearchProjectDef>
 </Defs>

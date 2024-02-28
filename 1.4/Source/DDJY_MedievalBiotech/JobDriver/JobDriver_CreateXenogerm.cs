@@ -57,7 +57,6 @@ namespace DDJY
                 ); ;
             });
             Toils_Wait.defaultCompleteMode = ToilCompleteMode.Delay;
-            //Toils_Wait.WithEffect(DDJY_EffecterDefOf.DDJY_Effecter_TransmutationCircle, TargetIndex.A);
             Toils_Wait.WithProgressBar(TargetIndex.B, delegate { return 1f - (float)Toils_Wait.actor.jobs.curDriver.ticksLeftThisToil / 3000; }, false, -0.5f, false);
             yield return Toils_Wait;
 
@@ -79,6 +78,7 @@ namespace DDJY
                 xenogerm = (Xenogerm)ThingMaker.MakeThing(ThingDefOf.Xenogerm);
                 xenogerm.Initialize(packsList, compGeneAssembler.xenotypeName, compGeneAssembler.iconDef);
                 GeneUtility.ImplantXenogermItem(TransmutationCircle.ContainedPawn, xenogerm);
+                Messages.Message("DDJY_CeremonyDone".Translate(TransmutationCircle.ContainedPawn), new LookTargets(TransmutationCircle.ContainedPawn), MessageTypeDefOf.PositiveEvent);
             }
             if (compGeneAssembler.architesRequired > 0)
             {

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+    <DDJY_TransmutationCircle.label>Transmutation Circle</DDJY_TransmutationCircle.label>
+    <DDJY_TransmutationCircle.description>An alchemical circle used for soul transmutation</DDJY_TransmutationCircle.description>
+    <DDJY_SoulAltar.label>Soul Altar</DDJY_SoulAltar.label>
+    <DDJY_SoulAltar.description>An altar used to store soul stones, connected to the Transmutation Circle</DDJY_SoulAltar.description>
+</LanguageData>

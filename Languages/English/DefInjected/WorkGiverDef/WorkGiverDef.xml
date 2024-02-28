@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+    <DDJY_CarryToTransmutationCircle.label>carry to transmutation circle</DDJY_CarryToTransmutationCircle.label>
+    <DDJY_CarryToTransmutationCircle.gerund>extracting soul from</DDJY_CarryToTransmutationCircle.gerund>
+    <DDJY_CarryToTransmutationCircle.verb>extract soul</DDJY_CarryToTransmutationCircle.verb>
+
+    <DDJY_HaulToGeneBank.label>bank soul stone</DDJY_HaulToGeneBank.label>
+    <DDJY_HaulToGeneBank.gerund>bank</DDJY_HaulToGeneBank.gerund>
+    <DDJY_HaulToGeneBank.verb>banking</DDJY_HaulToGeneBank.verb>
+</LanguageData>

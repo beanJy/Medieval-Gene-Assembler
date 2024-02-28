@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LanguageData>
-    <DDJY_Alchemy.label>灵魂炼金术</DDJY_Alchemy.label>
-    <DDJY_Alchemy.description>解锁提取灵魂和灵魂融合。</DDJY_Alchemy.description>
-    <DDJY_ArchiteAlchemy.label>超凡灵魂炼金术</DDJY_ArchiteAlchemy.label>
-    <DDJY_ArchiteAlchemy.description>解锁提超凡灵魂融合。</DDJY_ArchiteAlchemy.description>
+    <DDJY_SoulAlchemy.label>灵魂炼金术</DDJY_SoulAlchemy.label>
+    <DDJY_SoulAlchemy.description>解锁提取灵魂和灵魂融合。</DDJY_SoulAlchemy.description>
+    <DDJY_ArchiteSoulAlchemy.label>超凡灵魂炼金术</DDJY_ArchiteSoulAlchemy.label>
+    <DDJY_ArchiteSoulAlchemy.description>解锁提超凡灵魂融合。</DDJY_ArchiteSoulAlchemy.description>
 </LanguageData>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <DDJY_StartCombining>Start Fusion</DDJY_StartCombining>
+    <DDJY_SelectedGenepacks>Selected Souls</DDJY_SelectedGenepacks>
+    <AssemblingRequiresResearch>Using Archite Potion to merge souls requires the {0_label} research project.</AssemblingRequiresResearch>
+    <DDJY_GenepackLibrary>Soul Altar</DDJY_GenepackLibrary>
+    <EjectGenepackFromGeneBank>Eject Soul Stones from Soul Altar</EjectGenepackFromGeneBank>
+    <GeneWillBeRandomChosen>For each individual, one of the following souls will be randomly chosen as the dominant soul.</GeneWillBeRandomChosen>
+    <GeneOneActive>Among the following souls, only one will be expressed, others will be suppressed.</GeneOneActive>
+    <MessageNoSelectedGenepacks>No souls selected.</MessageNoSelectedGenepacks>
+    <ComplexityTooHighToCreateXenogerm>The total metabolic efficiency of the selected souls cannot exceed {MAX}, but currently it's {AMOUNT}.</ComplexityTooHighToCreateXenogerm>
+    <NotEnoughArchites>Not enough Archite Potion.</NotEnoughArchites>
+    <MissingGenepackForXenogerm>The {NAME} template is missing soul stone.</MissingGenepackForXenogerm>
+    <MissingGenepacksForXenogerm>The {NAME} template is missing {COUNT}x soul stones.</MissingGenepacksForXenogerm>
+    <ArchitesRequired>Archite Potion</ArchitesRequired>
+    <ArchitesRequiredDesc>A miraculous potion, extremely rare, can fuse with the Archite Soul Stone to create a powerful soul.</ArchitesRequiredDesc>
+</LanguageData>

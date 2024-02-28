@@ -5,8 +5,8 @@
     <label>carry to TransmutationCircle</label>
     <giverClass>DDJY.WorkGiver_CarryToTransmutationCircle</giverClass>
     <workType>Hauling</workType>
-    <verb>extract genes</verb>
-    <gerund>extracting genes from</gerund>
+    <verb>extract soul</verb>
+    <gerund>extracting soul from</gerund>
     <priorityInType>90</priorityInType>
     <requiredCapacities>
       <li>Manipulation</li>

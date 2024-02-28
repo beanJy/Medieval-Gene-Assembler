@@ -11,6 +11,6 @@ namespace DDJY
             DefOfHelper.EnsureInitializedInCtor(typeof(DDJY_ResearchProjectDefOf));
         }
 
-        public static ResearchProjectDef DDJY_ArchiteAlchemy;
+        public static ResearchProjectDef DDJY_ArchiteSoulAlchemy;
     }
 }

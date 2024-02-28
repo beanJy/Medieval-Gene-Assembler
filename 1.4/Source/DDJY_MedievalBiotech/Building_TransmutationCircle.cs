@@ -292,7 +292,6 @@ namespace DDJY
                 selectedPawn.Drawer.renderer.RenderPawnAt(DrawPos + this.PawnDrawOffset, null, neverAimWeapon: true);
             }
         }
-        
         // 获取基因提取器的检查字符串
         public override string GetInspectString()
         {
@@ -313,7 +312,7 @@ namespace DDJY
                     text += "\n";
                 }
 
-                text = text + "ExtractingXenogermFrom".Translate(ContainedPawn.Named("PAWN")).Resolve();
+                text = text + "DDJY_CeremonyInProgress".Translate(ContainedPawn.Named("PAWN")).Resolve();
             }
 
             return text;

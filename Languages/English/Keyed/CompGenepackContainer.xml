@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <EjectAllDesc>Eject all stored soul stones onto the ground.</EjectAllDesc>
+    <GenepacksStored>Stored Soul Stones</GenepacksStored>
+    <AllowAllGenepacks>Allow All Soul Stones</AllowAllGenepacks> 
+    <AllowAllGenepacksDesc>Allow colonists to automatically store any soul stones in this container. If you want only specific soul stones to be stored here, please disable this option.</AllowAllGenepacksDesc> 
+    <ContainedGenepacksDesc>Soul stones currently inside this container.</ContainedGenepacksDesc> 
+    <GenepacksToLoadDesc>Soul stones designated to be loaded into this container.</GenepacksToLoadDesc> 
+    <GenepacksIgnoredDesc>Soul stones not designated to be loaded into this container.</GenepacksIgnoredDesc> 
+    <GenepacksToLoad>Load Soul Stones</GenepacksToLoad> 
+    <GenepacksToIgnore>Ignore Soul Stones</GenepacksToIgnore> 
+    <EjectGenepackDesc>Eject soul stones from this container.</EjectGenepackDesc> 
+</LanguageData>

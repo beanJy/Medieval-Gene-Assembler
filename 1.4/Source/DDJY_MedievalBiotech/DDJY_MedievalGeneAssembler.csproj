@@ -61,13 +61,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Building_AlchemyTable.cs" />
     <Compile Include="Comps\CompDarklightOverlay.cs" />
     <Compile Include="Comps\CompGeneAssembler.cs" />
     <Compile Include="Comps\CompGenepackContainer.cs" />
     <Compile Include="Comps\CompRemovePart.cs" />
     <Compile Include="Defs\DDJY_BodyPartDefOf.cs" />
-    <Compile Include="Defs\DDJY_EffecterDefOf.cs" />
     <Compile Include="Defs\DDJY_JobDefOf.cs" />
     <Compile Include="Defs\DDJY_ResearchProjectDefOf.cs" />
     <Compile Include="Defs\DDJY_ThingDefOf.cs" />

@@ -1,59 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
     <Operation Class="PatchOperationSequence">
-        <operations MayRequire="dankpyon.medieval.overhaul">
-          <li Class="PatchOperationAdd">
-            <xpath>Defs/ResearchProjectDef[defName="DDJY_Alchemy"]/prerequisites</xpath>
+        <operations>
+          <!-- 科技适配 -->
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SoulAlchemy"]/prerequisites</xpath>
             <value>
               <li>DankPyon_Alchemy</li>
             </value>
           </li>
-          <li Class="PatchOperationAdd">
-            <xpath>Defs/ResearchProjectDef[defName="DDJY_Alchemy"]</xpath>
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SoulAlchemy"]</xpath>
             <value>
                 <tab>DankPyon_MedievalResearchTab</tab>
             </value>
           </li>
-          <li Class="PatchOperationReplace">
-            <xpath>Defs/ResearchProjectDef[defName="DDJY_Alchemy"]/techLevel</xpath>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SoulAlchemy"]/techLevel</xpath>
             <value>
                 <techLevel>Medieval</techLevel>
             </value>
           </li>
-          <li Class="PatchOperationReplace">
-            <xpath>Defs/ResearchProjectDef[defName="DDJY_Alchemy"]/researchViewX</xpath>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SoulAlchemy"]/researchViewX</xpath>
             <value>
                 <researchViewX>15</researchViewX>
             </value>
           </li>
-          <li Class="PatchOperationReplace">
-            <xpath>Defs/ResearchProjectDef[defName="DDJY_Alchemy"]/researchViewY</xpath>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SoulAlchemy"]/researchViewY</xpath>
             <value>
                 <researchViewY>5.4</researchViewY>
             </value>
           </li>
-          <li Class="PatchOperationAdd">
-            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteAlchemy"]</xpath>
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteSoulAlchemy"]</xpath>
             <value>
                 <tab>DankPyon_MedievalResearchTab</tab>
             </value>
           </li>
-          <li Class="PatchOperationReplace">
-            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteAlchemy"]/techLevel</xpath>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteSoulAlchemy"]/techLevel</xpath>
             <value>
                 <techLevel>Medieval</techLevel>
             </value>
           </li>
-          <li Class="PatchOperationReplace">
-            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteAlchemy"]/researchViewX</xpath>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteSoulAlchemy"]/researchViewX</xpath>
             <value>
                 <researchViewX>16</researchViewX>
             </value>
           </li>
-          <li Class="PatchOperationReplace">
-            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteAlchemy"]/researchViewY</xpath>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteSoulAlchemy"]/researchViewY</xpath>
             <value>
                 <researchViewY>5.4</researchViewY>
+            </value>
+          </li>
+          <!-- 增加基因组商人 -->
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/FactionDef[@Name="DankPyon_NobleHouseFactionBase"]/caravanTraderKinds</xpath>
+            <value>
+                <li>DDJY_Soul_Stone_Merchant</li>
+            </value>
+          </li>
+          <!-- 基地添加基因组货物 -->
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/TraderKindDef[defName="DankPyon_Base_Medieval_Standard"]/stockGenerators</xpath>
+            <value>
+              <li MayRequire="Ludeon.RimWorld.Biotech" Class="StockGenerator_SingleDef">
+                <thingDef>Genepack</thingDef>
+                <countRange>2~4</countRange>
+              </li>
+              <!-- Archite capsule -->
+              <li MayRequire="Ludeon.RimWorld.Biotech" Class="StockGenerator_SingleDef">
+                <thingDef>ArchiteCapsule</thingDef>
+                <countRange>-5~1</countRange> 
+              </li>
             </value>
           </li>
         </operations>

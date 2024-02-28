@@ -25,6 +25,8 @@ namespace DDJY
 
         private Pawn acter;
 
+        private bool inheritable;
+
         private CompGeneAssembler compGeneAssembler => TransmutationCircle.TryGetComp<CompGeneAssembler>();
 
         public override Vector2 InitialSize => new Vector2(1016f, UI.screenHeight);
@@ -372,9 +374,9 @@ namespace DDJY
                 return false;
             }
 
-            if (arc > 0 && !DDJY_ResearchProjectDefOf.DDJY_ArchiteAlchemy.IsFinished)
+            if (arc > 0 && !DDJY_ResearchProjectDefOf.DDJY_ArchiteSoulAlchemy.IsFinished)
             {
-                Messages.Message("AssemblingRequiresResearch".Translate(DDJY_ResearchProjectDefOf.DDJY_ArchiteAlchemy), null, MessageTypeDefOf.RejectInput, historical: false);
+                Messages.Message("AssemblingRequiresResearch".Translate(DDJY_ResearchProjectDefOf.DDJY_ArchiteSoulAlchemy), null, MessageTypeDefOf.RejectInput, historical: false);
                 return false;
             }
 
@@ -462,5 +464,7 @@ namespace DDJY
 
             quickSearchWidget.noResultsMatched = !matchingGenepacks.Any();
         }
+
+       
     }
 }

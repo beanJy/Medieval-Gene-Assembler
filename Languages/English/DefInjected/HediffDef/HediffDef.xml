@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+    <XenogermReplicating.label>Soul Fusion</XenogermReplicating.label>
+    <XenogermReplicating.description>This person's soul is undergoing fusion. This process has no direct impact on health. However, extracting the soul during fusion will result in the person's death.</XenogermReplicating.description>
+    <XenogermLossShock.label>Soul Loss Shock</XenogermLossShock.label>
+    <XenogermLossShock.description>This person's soul has recently been extracted, disrupting the metabolism system and hormone stability, resulting in temporary weakness, drowsiness, and the immune system entering a weakened state.</XenogermLossShock.description>
+</LanguageData>

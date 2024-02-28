@@ -82,7 +82,7 @@ namespace DDJY
 
             if (genesToAdd.Any())
             {
-                GeneUtility.ExtractXenogerm(containedPawn, Mathf.RoundToInt(60000f * GeneTuning.GeneExtractorRegrowingDurationDaysRange.RandomInRange));    
+                ExtractXenogerm(containedPawn, Mathf.RoundToInt(60000f * GeneTuning.GeneExtractorRegrowingDurationDaysRange.RandomInRange));    
                 GenPlace.TryPlaceThing(genepack, intVec, base.Map, ThingPlaceMode.Near);
                 //移除身体器官
                 TransmutationCircle.GetComp<CompRemovePart>()?.RandomReMoveNoVitalsParts(containedPawn);
@@ -129,5 +129,28 @@ namespace DDJY
             new CurvePoint(3f, 0.08f),
             new CurvePoint(4f, 0.02f)
         };
+
+        private static void ExtractXenogerm(Pawn pawn, int overrideDurationTicks = -1)
+        {
+            if (ModLister.CheckBiotech("xenogerm extraction"))
+            {
+                pawn.health.AddHediff(HediffDefOf.XenogermLossShock);
+                if (GeneUtility.PawnWouldDieFromReimplanting(pawn))
+                {
+                    pawn.genes.SetXenotype(XenotypeDefOf.Baseliner);
+                }
+                if (pawn.health.hediffSet.HasHediff(HediffDefOf.XenogermReplicating))
+                {
+                    pawn.Kill(null);
+                }
+                    //Hediff hediff = HediffMaker.MakeHediff(HediffDefOf.XenogermReplicating, pawn);
+                    //if (overrideDurationTicks > 0)
+                    //{
+                    //    hediff.TryGetComp<HediffComp_Disappears>().ticksToDisappear = overrideDurationTicks;
+                    //}
+
+                    //pawn.health.AddHediff(hediff);
+                }
+        }
     }
 }
