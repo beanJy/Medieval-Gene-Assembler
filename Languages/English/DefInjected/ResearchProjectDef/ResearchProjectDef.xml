@@ -4,4 +4,8 @@
     <DDJY_SoulAlchemy.description>Unlock the extraction and fusion of souls.</DDJY_SoulAlchemy.description>
     <DDJY_ArchiteSoulAlchemy.label>Archite Soul Alchemy</DDJY_ArchiteSoulAlchemy.label>
     <DDJY_ArchiteSoulAlchemy.description>Unlock Archite soul fusion.</DDJY_ArchiteSoulAlchemy.description>
+    <DDJY_InheritableSoul.label>Inheritable Soul</DDJY_InheritableSoul.label>
+    <DDJY_InheritableSoul.description>Edit inheritable soul.</DDJY_InheritableSoul.description>
+    <DDJY_SelfSoulEdit.label>Self Soul Edit</DDJY_SelfSoulEdit.label>
+    <DDJY_SelfSoulEdit.description>Can freely add or remove one's own souls.</DDJY_SelfSoulEdit.description>
 </LanguageData>

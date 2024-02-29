@@ -12,5 +12,7 @@ namespace DDJY
         }
 
         public static ResearchProjectDef DDJY_ArchiteSoulAlchemy;
+        public static ResearchProjectDef DDJY_InheritableSoul;
+        public static ResearchProjectDef DDJY_SelfSoulEdit;
     }
 }

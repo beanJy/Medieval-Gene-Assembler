@@ -14,4 +14,8 @@
     <ArchitesRequired>超凡灵药</ArchitesRequired>
     <ArchitesRequiredDesc>一种神奇的药水，十分罕见，与超凡灵魂石一起可以融合出强大的灵魂。</ArchitesRequiredDesc>
     <DDJY_ArchiteSoulsCannotBeInherited>超凡灵魂无法遗传</DDJY_ArchiteSoulsCannotBeInherited>
+    <DDJY_InheritableSoul>可遗传灵魂</DDJY_InheritableSoul>
+    <DDJY_InheritableSoulDesc>编辑可遗传灵魂。需要研究科技: 可遗传灵魂</DDJY_InheritableSoulDesc>
+    <DDJY_SelfGenomeEdit>自身灵魂编辑</DDJY_SelfGenomeEdit>
+    <DDJY_SelfGenomeEditDesc>可以自由的添加或移除自身的灵魂。需要研究科技：自身灵魂编辑</DDJY_SelfGenomeEditDesc>
 </LanguageData>

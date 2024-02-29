@@ -1,5 +1,6 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -119,6 +120,25 @@ namespace DDJY
                         compDarklightOverlay.IsActive = true;
                         flag = true;
                         break;
+                    }
+                    if (packsList[i].GeneSet.GenesListForReading.Count == 1 )
+                    {
+                        List<Gene> list = new List<Gene>();
+                        if (compGeneAssembler.inheritable)
+                        {
+                            list = TransmutationCircle.ContainedPawn.genes.Endogenes;
+                        }
+                        else
+                        {
+                            list = TransmutationCircle.ContainedPawn.genes.Xenogenes;
+                        }
+                        foreach(Gene gene in list)
+                        {
+                            gene.def = packsList[i].GeneSet.GenesListForReading[0];
+                            flag = true;
+                            break;
+                        }
+
                     }
                 }
 

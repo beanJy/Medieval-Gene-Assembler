@@ -23,7 +23,18 @@ namespace DDJY
 
         private Pawn acter;
 
+        private Pawn containedPawn;
+
+        private List<Genepack> containedPawnpawnEndogenes = new List<Genepack>();
+
+        protected float endogenesSelectedHeight;
+
+        private List<Genepack> containedPawnpawnXenogenes = new List<Genepack>();
+
         private bool inheritable;
+
+        private bool selfGenomeEdit;
+
 
         private CompGeneAssembler compGeneAssembler => TransmutationCircle.TryGetComp<CompGeneAssembler>();
 
@@ -56,6 +67,8 @@ namespace DDJY
         {
             this.TransmutationCircle = TransmutationCircle;
             this.acter = acter;
+            containedPawn = TransmutationCircle.ContainedPawn;
+
             maxGCX = compGeneAssembler.MaxComplexity();
             libraryGenepacks.AddRange(compGeneAssembler.GetGenepacks(includePowered: true, includeUnpowered: true));
             xenotypeName = string.Empty;
@@ -63,8 +76,11 @@ namespace DDJY
             forcePause = true;
             absorbInputAroundWindow = true;
             inheritable = false;
+            selfGenomeEdit = false;
             searchWidgetOffsetX = GeneCreationDialogBase.ButSize.x * 2f + 4f;
             libraryGenepacks.SortGenepacks();
+            containedPawnpawnEndogenes = GeneListToGenepackList(containedPawn.genes.Endogenes);
+            containedPawnpawnXenogenes = GeneListToGenepackList(containedPawn.genes.Xenogenes);
         }
 
         //打开窗口时调用，检查是否有Dlc
@@ -105,8 +121,20 @@ namespace DDJY
             Rect containingRect = rect2;
             containingRect.y = scrollPosition.y;
             containingRect.height = rect.height;
-
             DrawSection(rect, selectedGenepacks, "DDJY_SelectedGenepacks".Translate(), ref curY, ref selectedHeight, adding: false, containingRect);
+            if (selfGenomeEdit)
+            {
+                if (inheritable)
+                {
+                    curY += 8f;
+                    DrawSection(rect, containedPawnpawnEndogenes, "Endogenes".Translate(), ref curY, ref endogenesSelectedHeight, adding: true, containingRect);
+                }
+                else
+                {
+                    curY += 8f;
+                    DrawSection(rect, containedPawnpawnXenogenes, "Xenogenes".Translate(), ref curY, ref endogenesSelectedHeight, adding: true, containingRect);
+                }
+            }
             curY += 8f;
             DrawSection(rect, libraryGenepacks, "DDJY_GenepackLibrary".Translate(), ref curY, ref unselectedHeight, adding: true, containingRect);
             if ((int)Event.current.type == 8)
@@ -275,12 +303,9 @@ namespace DDJY
 
                             tmpGenes.Clear();
                             libraryGenepacks.Clear();
-                            //unpoweredGenepacks.Clear();
                             matchingGenepacks.Clear();
                             libraryGenepacks.AddRange(compGeneAssembler.GetGenepacks(includePowered: true, includeUnpowered: true));
-                            //unpoweredGenepacks.AddRange(geneAssembler.TryGetComp<CompGeneAssembler>().GetGenepacks(includePowered: false, includeUnpowered: true));
                             libraryGenepacks.SortGenepacks();
-                            //unpoweredGenepacks.SortGenepacks();
                             OnGenesChanged();
                         }
                     }
@@ -460,20 +485,173 @@ namespace DDJY
             quickSearchWidget.noResultsMatched = !matchingGenepacks.Any();
         }
 
-        //可遗传按钮
+        //可遗传和自身基因编辑按钮
         protected override void PostXenotypeOnGUI(float curX, float curY)
         {
-            TaggedString taggedString = "GenesAreInheritable".Translate();
-            float width = Text.CalcSize(taggedString).x + 4f + 24f;
+            TaggedString taggedString = "DDJY_InheritableSoul".Translate();
+            TaggedString taggedString2 = "DDJY_SelfGenomeEdit".Translate();
+            float width = Math.Max(Text.CalcSize(taggedString).x, Text.CalcSize(taggedString2).x ) + 4f + 24f;
             Rect rect = new Rect(curX, curY, width, Text.LineHeight);
-            Widgets.CheckboxLabeled(rect, taggedString, ref this.inheritable, false, null, null, false);
+            InheritableCheckboxLabeled(rect, taggedString, ref inheritable, !DDJY_ResearchProjectDefOf.DDJY_InheritableSoul.IsFinished, null, null, false);
             if (Mouse.IsOver(rect))
             {
                 Widgets.DrawHighlight(rect);
-                TooltipHandler.TipRegion(rect, "GenesAreInheritableDesc".Translate());
+                TooltipHandler.TipRegion(rect, "DDJY_InheritableSoulDesc".Translate());
             }
             rect.y += Text.LineHeight;
+            SelfGenomeEditCheckboxLabeled(rect, taggedString2, ref selfGenomeEdit, !DDJY_ResearchProjectDefOf.DDJY_SelfSoulEdit.IsFinished, null, null, false);
+            if (Mouse.IsOver(rect))
+            {
+                Widgets.DrawHighlight(rect);
+                TooltipHandler.TipRegion(rect, "DDJY_SelfGenomeEditDesc".Translate());
+            }
             this.postXenotypeHeight += rect.yMax - curY;
+        }
+
+        //可遗传基因按钮
+        private void InheritableCheckboxLabeled(Rect rect, string label, ref bool checkOn, bool disabled = false, Texture2D texChecked = null, Texture2D texUnchecked = null, bool placeCheckboxNearText = false)
+        {
+            TextAnchor anchor = Text.Anchor;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            if (placeCheckboxNearText)
+            {
+                rect.width = Mathf.Min(rect.width, Text.CalcSize(label).x + 24f + 10f);
+            }
+
+            Rect rect2 = rect;
+            rect2.xMax -= 24f;
+            Widgets.Label(rect2, label);
+            if (!disabled && Widgets.ButtonInvisible(rect))
+            {
+                checkOn = !checkOn;
+                if (checkOn)
+                {
+                    SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera();
+                }
+                else
+                {
+                    SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
+                }
+                if (selfGenomeEdit)
+                {
+                    selectedGenepacks.Clear();
+                    List<Genepack> list = new List<Genepack>();
+                    if (checkOn)
+                    {
+                        list = containedPawnpawnEndogenes;
+                    }
+                    else
+                    {
+                        list = containedPawnpawnXenogenes;
+                    }
+                    foreach (Genepack genepack in list)
+                    {
+                        selectedGenepacks.Add(genepack);
+                    }
+                    OnGenesChanged();
+                }
+            }
+
+            Widgets.CheckboxDraw(rect.x + rect.width - 24f, rect.y + (rect.height - 24f) / 2f, checkOn, disabled);
+            Text.Anchor = anchor;
+        }
+
+        //自身基因编辑按钮
+        private void SelfGenomeEditCheckboxLabeled(Rect rect, string label, ref bool checkOn, bool disabled = false, Texture2D texChecked = null, Texture2D texUnchecked = null, bool placeCheckboxNearText = false)
+        {
+            TextAnchor anchor = Text.Anchor;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            if (placeCheckboxNearText)
+            {
+                rect.width = Mathf.Min(rect.width, Text.CalcSize(label).x + 24f + 10f);
+            }
+
+            Rect rect2 = rect;
+            rect2.xMax -= 24f;
+            Widgets.Label(rect2, label);
+            if (!disabled && Widgets.ButtonInvisible(rect))
+            {
+                checkOn = !checkOn;
+                if (checkOn)
+                {
+                    SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera();
+                    selectedGenepacks.Clear();
+                    List<Genepack> list = new List<Genepack>();
+                    if (inheritable)
+                    {
+                        list = containedPawnpawnEndogenes;
+                    }
+                    else
+                    {
+                        list = containedPawnpawnXenogenes;
+                    }
+                    foreach (Genepack genepack in list)
+                    {
+                        selectedGenepacks.Add(genepack);
+                    }
+                }
+                else
+                {
+                    SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
+                    selectedGenepacks.Clear();
+                }
+                OnGenesChanged();
+            }
+
+            Widgets.CheckboxDraw(rect.x + rect.width - 24f, rect.y + (rect.height - 24f) / 2f, checkOn, disabled);
+            Text.Anchor = anchor;
+        }
+        
+        //基因转换为基因包
+        private Genepack GeneToGenepack(Gene gene)
+        {
+            List<GeneDef> genesList = new List<GeneDef>();
+            genesList.Add(gene.def);
+            Genepack genepack = (Genepack)ThingMaker.MakeThing(ThingDefOf.Genepack);
+            genepack.Initialize(genesList);
+            return genepack;
+        }
+
+        //系谱基因转基因包列表
+        private List<Genepack> GeneListToGenepackList(List<Gene> geneList)
+        {
+            List<Genepack> GenepackList = new List<Genepack>();
+            if(geneList.Any()) 
+            { 
+                foreach (Gene gene in geneList)
+                {
+                    GenepackList.Add(GeneToGenepack(gene));
+                }
+            }
+            return GenepackList;
+        }
+
+        //基因改变时调用
+        protected override void OnGenesChanged()
+        {
+            base.OnGenesChanged();
+
+            if (selfGenomeEdit)
+            {
+                List<Genepack> geneList = new List<Genepack>();
+                if (inheritable)
+                {
+                    geneList = containedPawnpawnEndogenes;
+                }
+                else
+                {
+                    geneList = containedPawnpawnXenogenes;
+                }
+
+                foreach (Genepack genePack in geneList)
+                {
+                    if (selectedGenepacks.Contains(genePack))
+                    {
+                        arc -= genePack.GeneSet.ArchitesTotal;
+                        gcx -= genePack.GeneSet.ComplexityTotal;
+                    }
+                }
+            }
         }
     }
 }

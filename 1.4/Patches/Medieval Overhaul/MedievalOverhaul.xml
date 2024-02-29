@@ -2,7 +2,7 @@
 <Patch>
     <Operation Class="PatchOperationSequence">
         <operations>
-          <!-- 科技适配 -->
+          <!-- 灵魂炼金术 -->
           <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
             <xpath>Defs/ResearchProjectDef[defName="DDJY_SoulAlchemy"]/prerequisites</xpath>
             <value>
@@ -30,9 +30,10 @@
           <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
             <xpath>Defs/ResearchProjectDef[defName="DDJY_SoulAlchemy"]/researchViewY</xpath>
             <value>
-                <researchViewY>5.4</researchViewY>
+                <researchViewY>6.50</researchViewY>
             </value>
           </li>
+          <!-- 超凡灵魂炼金术 -->
           <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
             <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteSoulAlchemy"]</xpath>
             <value>
@@ -54,7 +55,57 @@
           <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
             <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteSoulAlchemy"]/researchViewY</xpath>
             <value>
-                <researchViewY>5.4</researchViewY>
+                <researchViewY>6.50</researchViewY>
+            </value>
+          </li>
+          <!-- 可遗传灵魂 -->
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_InheritableSoul"]</xpath>
+            <value>
+                <tab>DankPyon_MedievalResearchTab</tab>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_InheritableSoul"]/techLevel</xpath>
+            <value>
+                <techLevel>Medieval</techLevel>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_InheritableSoul"]/researchViewX</xpath>
+            <value>
+                <researchViewX>16</researchViewX>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_InheritableSoul"]/researchViewY</xpath>
+            <value>
+                <researchViewY>7.0</researchViewY>
+            </value>
+          </li>
+          <!-- 自身灵魂编辑 -->
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SelfSoulEdit"]</xpath>
+            <value>
+                <tab>DankPyon_MedievalResearchTab</tab>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SelfSoulEdit"]/techLevel</xpath>
+            <value>
+                <techLevel>Medieval</techLevel>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SelfSoulEdit"]/researchViewX</xpath>
+            <value>
+                <researchViewX>16</researchViewX>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SelfSoulEdit"]/researchViewY</xpath>
+            <value>
+                <researchViewY>7.5</researchViewY>
             </value>
           </li>
           <!-- 增加基因组商人 -->

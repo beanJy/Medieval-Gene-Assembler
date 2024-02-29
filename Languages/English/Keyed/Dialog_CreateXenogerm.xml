@@ -14,4 +14,8 @@
     <ArchitesRequired>Archite Potion</ArchitesRequired>
     <ArchitesRequiredDesc>A miraculous potion, extremely rare, can fuse with the Archite Soul Stone to create a powerful soul.</ArchitesRequiredDesc>
     <DDJY_ArchiteSoulsCannotBeInherited>Archite souls cannot be inherited</DDJY_ArchiteSoulsCannotBeInherited>
+    <DDJY_InheritableSoul>Inheritable Soul</DDJY_InheritableSoul>
+    <DDJY_InheritableSoulDesc>Edit inheritable soul. Requires research: Inheritable Soul</DDJY_InheritableSoulDesc>
+    <DDJY_SelfGenomeEdit>Self Soul Edit</DDJY_SelfGenomeEdit>
+    <DDJY_SelfGenomeEditDesc>Allows freely add or remove one's own soul. Requires research: Self Soul Edit</DDJY_SelfGenomeEditDesc>
 </LanguageData>

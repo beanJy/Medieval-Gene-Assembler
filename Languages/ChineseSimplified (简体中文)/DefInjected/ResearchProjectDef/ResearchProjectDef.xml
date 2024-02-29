@@ -4,4 +4,8 @@
     <DDJY_SoulAlchemy.description>解锁提取灵魂和灵魂融合。</DDJY_SoulAlchemy.description>
     <DDJY_ArchiteSoulAlchemy.label>超凡灵魂炼金术</DDJY_ArchiteSoulAlchemy.label>
     <DDJY_ArchiteSoulAlchemy.description>解锁提超凡灵魂融合。</DDJY_ArchiteSoulAlchemy.description>
+    <DDJY_InheritableSoul.label>可遗传灵魂</DDJY_InheritableSoul.label>
+    <DDJY_InheritableSoul.description>编辑可遗传灵魂</DDJY_InheritableSoul.description>
+    <DDJY_SelfSoulEdit.label>自身灵魂编辑</DDJY_SelfSoulEdit.label>
+    <DDJY_SelfSoulEdit.description>可以自由的添加或移除自身的灵魂。</DDJY_SelfSoulEdit.description>
 </LanguageData>
