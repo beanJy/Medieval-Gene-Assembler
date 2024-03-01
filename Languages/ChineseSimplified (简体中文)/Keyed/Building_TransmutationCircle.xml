@@ -3,7 +3,7 @@
   <DDJY_RemovePart>{0}的{1}消失不见了了 </DDJY_RemovePart>
   <DDJY_CommandCancelCeremony>取消仪式</DDJY_CommandCancelCeremony>
   <DDJY_CommandCancelCeremonyDesc>取消当前进行的仪式</DDJY_CommandCancelCeremonyDesc>
-  <DDJY_CommandRandomlyExtractGenes>随机提取灵魂</DDJY_CommandRandomlyExtractGenes>
+  <DDJY_CommandRandomlyExtractGenes>提取灵魂</DDJY_CommandRandomlyExtractGenes>
   <DDJY_CommandRandomlyExtractGenesDesc>已失去部分身体为代价提取部分灵魂</DDJY_CommandRandomlyExtractGenesDesc>
   <DDJY_AssembleGenes>融合灵魂</DDJY_AssembleGenes>
   <DDJY_AssembleGenesDesc>融合灵魂</DDJY_AssembleGenesDesc>

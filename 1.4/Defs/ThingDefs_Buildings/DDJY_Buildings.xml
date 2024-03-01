@@ -115,8 +115,8 @@
       <statBases>
         <MaxHitPoints>200</MaxHitPoints>
         <WorkToBuild>5000</WorkToBuild>
-        <Mass>8</Mass>
-        <Flammability>0.5</Flammability>
+        <Mass>20</Mass>
+        <GeneticComplexityIncrease>8</GeneticComplexityIncrease>
       </statBases>
       <researchPrerequisites>
         <li>DDJY_SoulAlchemy</li>

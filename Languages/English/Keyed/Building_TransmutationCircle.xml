@@ -3,7 +3,7 @@
   <DDJY_RemovePart>{0}'s {1} disappeared</DDJY_RemovePart>
   <DDJY_CommandCancelCeremony>Cancel Ceremony</DDJY_CommandCancelCeremony>
   <DDJY_CommandCancelCeremonyDesc>Cancel the ongoing ceremony</DDJY_CommandCancelCeremonyDesc>
-  <DDJY_CommandRandomlyExtractGenes>Randomly Extract Soul</DDJY_CommandRandomlyExtractGenes>
+  <DDJY_CommandRandomlyExtractGenes>Extract Soul</DDJY_CommandRandomlyExtractGenes>
   <DDJY_CommandRandomlyExtractGenesDesc>Extract part of the soul at the cost of losing part of the body</DDJY_CommandRandomlyExtractGenesDesc>
   <DDJY_AssembleGenes>Assemble Soul</DDJY_AssembleGenes>
   <DDJY_AssembleGenesDesc>Assemble soul</DDJY_AssembleGenesDesc>

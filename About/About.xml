@@ -15,6 +15,7 @@
     	<li>ludeon.rimworld.biotech</li>
 		<li>dankpyon.medieval.overhaul</li>
 		<li>dankpyon.medievalgenepacks</li>
+		<li>spirit.medieval.overhaul.zht</li>
   	</loadAfter>
 	<packageId>DDJY.MedievalGeneAssembler</packageId>
 	<description>Medieval Gene Assembler</description>
