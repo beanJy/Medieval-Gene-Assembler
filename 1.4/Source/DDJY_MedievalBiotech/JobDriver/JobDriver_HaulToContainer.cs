@@ -172,7 +172,6 @@ namespace DDJY
                         }
                         Thing carriedThing = actor.carryTracker.CarriedThing;
                         actor.carryTracker.innerContainer.TryTransferToContainer(carriedThing, thingOwner, num);
-                        Log.Message("执行");
                         onDeposited?.Invoke();
                         
                     }
