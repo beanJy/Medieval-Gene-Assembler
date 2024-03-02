@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using RimWorld;
 using Verse.AI;
 using Verse;
+using System;
+using UnityEngine;
+
 namespace DDJY
 {
     public class JobDriver_HaulToContainer : JobDriver
@@ -134,16 +137,56 @@ namespace DDJY
             };
             ModifyPrepareToil(toil);
             yield return toil;
-            yield return Toils_Construct.MakeSolidThingFromBlueprintIfNecessary(TargetIndex.B, TargetIndex.C);
-            yield return Toils_Haul.DepositHauledThingInContainer(TargetIndex.B, TargetIndex.C);
-            yield return Toils_Haul.JumpToCarryToNextContainerIfPossible(carryToContainer, TargetIndex.C);
-            Toil Toil_Done = ToilMaker.MakeToil("done");
-            Toil_Done.initAction = delegate
-            {   
-                //重新检测
-                transmutationCircle.TryGetComp<CompGeneAssembler>().SelectJob();
+            yield return DepositHauledThingInContainer(TargetIndex.B, TargetIndex.C, delegate { transmutationCircle.TryGetComp<CompGeneAssembler>().SelectJob();});
+        }
+        public static Toil DepositHauledThingInContainer(TargetIndex containerInd, TargetIndex reserveForContainerInd, Action onDeposited = null)
+        {
+            Toil toil = ToilMaker.MakeToil("DepositHauledThingInContainer");
+            toil.initAction = delegate
+            {
+                Pawn actor = toil.actor;
+                Job curJob = actor.jobs.curJob;
+                if (actor.carryTracker.CarriedThing == null)
+                {
+                    Log.Error(string.Concat(actor, " tried to place hauled thing in container but is not hauling anything."));
+                }
+                else
+                {
+                    Thing thing = curJob.GetTarget(containerInd).Thing;
+                    ThingOwner thingOwner = thing.TryGetInnerInteractableThingOwner();
+                    if (thingOwner != null)
+                    {
+                        int num = actor.carryTracker.CarriedThing.stackCount;
+                        if (thing is IConstructible)
+                        {
+                            num = Mathf.Min(GenConstruct.AmountNeededByOf((IConstructible)thing, actor.carryTracker.CarriedThing.def), num);
+                            if (reserveForContainerInd != 0)
+                            {
+                                Thing thing2 = curJob.GetTarget(reserveForContainerInd).Thing;
+                                if (thing2 != null && thing2 != thing)
+                                {
+                                    int num2 = GenConstruct.AmountNeededByOf((IConstructible)thing2, actor.carryTracker.CarriedThing.def);
+                                    num = Mathf.Min(num, actor.carryTracker.CarriedThing.stackCount - num2);
+                                }
+                            }
+                        }
+                        Thing carriedThing = actor.carryTracker.CarriedThing;
+                        actor.carryTracker.innerContainer.TryTransferToContainer(carriedThing, thingOwner, num);
+                        Log.Message("执行");
+                        onDeposited?.Invoke();
+                        
+                    }
+                    else if (curJob.GetTarget(containerInd).Thing.def.Minifiable)
+                    {
+                        actor.carryTracker.innerContainer.ClearAndDestroyContents();
+                    }
+                    else
+                    {
+                        Log.Error("Could not deposit hauled thing in container: " + curJob.GetTarget(containerInd).Thing);
+                    }
+                }
             };
-            yield return Toil_Done;
+            return toil;
         }
     }
 }
