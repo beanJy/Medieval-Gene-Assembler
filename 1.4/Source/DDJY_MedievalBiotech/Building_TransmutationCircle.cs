@@ -270,10 +270,10 @@ namespace DDJY
                     {
                         commandRandomlyExtractGenes.Disable(CanExtractGenes(selectedPawn).Reason);
                     }
-                    if (ContainedPawn.health.hediffSet.HasHediff(HediffDefOf.XenogermReplicating))
-                    {
-                        commandAssembleGenes.Disable("DDJY_XenogermReplicating".Translate(ContainedPawn.Named("PAWN")));
-                    }
+                    //if (ContainedPawn.health.hediffSet.HasHediff(HediffDefOf.XenogermReplicating))
+                    //{
+                    //    commandAssembleGenes.Disable("DDJY_XenogermReplicating".Translate(ContainedPawn.Named("PAWN")));
+                    //}
                     yield return commandRandomlyExtractGenes;
                     yield return commandAssembleGenes;
                 }
