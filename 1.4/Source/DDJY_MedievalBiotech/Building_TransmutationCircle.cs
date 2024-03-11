@@ -466,7 +466,7 @@ namespace DDJY
                                 string text = "DDJY_HostCeremony".Translate(item.LabelShortCap);
                                 list.Add(new FloatMenuOption(text, delegate
                                 {
-                                    Find.WindowStack.Add(new Dialog_CreateXenogerm(this, item));
+                                    Find.WindowStack.Add(new Dialog_CreateXenogerm(this, item, ContainedPawn));
                                 }, item, Color.white));
                             }
                         }

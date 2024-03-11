@@ -63,11 +63,11 @@ namespace DDJY
         }
 
         //初始化Class
-        public Dialog_CreateXenogerm(Building_TransmutationCircle TransmutationCircle, Pawn acter)
+        public Dialog_CreateXenogerm(Building_TransmutationCircle TransmutationCircle, Pawn acter, Pawn containedPawn)
         {
             this.TransmutationCircle = TransmutationCircle;
             this.acter = acter;
-            containedPawn = TransmutationCircle.ContainedPawn;
+            this.containedPawn = containedPawn;
 
             maxGCX = compGeneAssembler.MaxComplexity();
             libraryGenepacks.AddRange(compGeneAssembler.GetGenepacks(includePowered: true, includeUnpowered: true));
@@ -79,8 +79,8 @@ namespace DDJY
             selfGenomeEdit = false;
             searchWidgetOffsetX = GeneCreationDialogBase.ButSize.x * 2f + 4f;
             libraryGenepacks.SortGenepacks();
-            containedPawnpawnEndogenes = GeneListToGenepackList(containedPawn.genes.Endogenes);
-            containedPawnpawnXenogenes = GeneListToGenepackList(containedPawn.genes.Xenogenes);
+            containedPawnpawnEndogenes.AddRange(GeneListToGenepackList(containedPawn?.genes?.Endogenes));
+            containedPawnpawnXenogenes.AddRange(GeneListToGenepackList(containedPawn?.genes?.Xenogenes));
         }
 
         //打开窗口时调用，检查是否有Dlc
@@ -616,7 +616,7 @@ namespace DDJY
         private List<Genepack> GeneListToGenepackList(List<Gene> geneList)
         {
             List<Genepack> GenepackList = new List<Genepack>();
-            if(geneList.Any()) 
+            if(geneList != null && geneList.Any()) 
             { 
                 foreach (Gene gene in geneList)
                 {
