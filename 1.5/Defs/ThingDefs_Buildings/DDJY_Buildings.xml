@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <ThingDef ParentName="BuildingBase">
+        <defName>DDJY_TransmutationCircle</defName>
+        <label>TransmutationCircle</label>
+        <description>TransmutationCircle</description>
+        <thingClass>DDJY.Building_TransmutationCircle</thingClass>
+        <containedPawnsSelectable>true</containedPawnsSelectable>
+        <passability>Standable</passability>
+        <fillPercent>0.4</fillPercent>
+        <castEdgeShadows>false</castEdgeShadows>
+        <drawerType>MapMeshAndRealTime</drawerType>
+        <tickerType>Normal</tickerType>
+        <graphicData>
+          <texPath>Things/Building/TransmutationCircle</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>(5, 5)</drawSize>
+        </graphicData>
+        <rotatable>false</rotatable>
+        <size>(5, 5)</size>
+        <descriptionHyperlinks>
+          <ThingDef>DDJY_SoulAltar</ThingDef>
+          <ThingDef>Genepack</ThingDef>
+          <ThingDef>ArchiteCapsule</ThingDef>
+        </descriptionHyperlinks>
+        <altitudeLayer>FloorEmplacement</altitudeLayer>
+        <canOverlapZones>false</canOverlapZones>
+        <hasInteractionCell>true</hasInteractionCell>
+        <interactionCellOffset>(0,0,1)</interactionCellOffset>
+        <defaultPlacingRot>South</defaultPlacingRot>
+        <designationCategory>Biotech</designationCategory>
+        <uiOrder>2100</uiOrder>
+        <researchPrerequisites>
+          <li>DDJY_SoulAlchemy</li>
+        </researchPrerequisites>
+        <building>
+          <buildingTags>
+            <li>Biotech</li>
+          </buildingTags>
+        </building>
+        <stuffCategories>
+          <li>Stony</li>
+        </stuffCategories>
+        <statBases>
+          <MaxHitPoints>50</MaxHitPoints>
+          <WorkToBuild>25000</WorkToBuild>
+          <Beauty>10</Beauty>
+          <StyleDominance>20</StyleDominance>
+        </statBases>
+        <costStuffCount>200</costStuffCount>
+        <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+        <comps>
+          <li>
+            <compClass>DDJY.CompRemovePart</compClass>
+          </li>
+          <li>
+            <compClass>DDJY.CompGeneAssembler</compClass>
+          </li>
+          <li Class="CompProperties_AffectedByFacilities">
+            <linkableFacilities>
+              <li>DDJY_SoulAltar</li>
+            </linkableFacilities>
+          </li>
+        </comps>
+    </ThingDef>
+
+
+    <ThingDef Name="DDJY_GeneBuildingBase" ParentName="BuildingBase" Abstract="True">
+      <designationCategory>Biotech</designationCategory>
+      <uiOrder>2100</uiOrder>
+      <pathCost>42</pathCost>
+      <building>
+        <ai_chillDestination>false</ai_chillDestination>
+        <buildingTags>
+          <li>Biotech</li>
+        </buildingTags>
+      </building>
+      <placeWorkers>
+        <li>PlaceWorker_ShowFacilitiesConnections</li>
+      </placeWorkers>
+      <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+      <comps>
+        <li Class="CompProperties_Forbiddable"/>
+      </comps>
+    </ThingDef>
+
+    <!-- 基因储存器 -->
+    <ThingDef ParentName="DDJY_GeneBuildingBase">
+      <defName>DDJY_SoulAltar</defName>
+      <label>SoulAltar</label>
+      <description>DDJY_SoulAltar</description>
+      <graphicData>
+        <texPath>Things/Building/SoulAltar</texPath>
+        <graphicClass>Graphic_Multi</graphicClass>
+        <drawSize>(2, 2)</drawSize>
+        <shaderType>CutoutComplex</shaderType>
+        <drawOffset>(0,0,0.18)</drawOffset>
+        <shadowData>
+          <volume>(0.55, 0.35, 0.3)</volume>
+          <offset>(0, 0, 0)</offset>
+        </shadowData>
+      </graphicData>
+      <uiIconScale>0.75</uiIconScale>
+      <tickerType>Normal</tickerType>
+      <drawerType>MapMeshAndRealTime</drawerType>
+      <passability>PassThroughOnly</passability>
+      <canOverlapZones>false</canOverlapZones>
+      <defaultPlacingRot>South</defaultPlacingRot>
+      <rotatable>false</rotatable>
+      <size>(1, 1)</size>
+      <stuffCategories>
+        <li>Stony</li>
+      </stuffCategories>
+      <costStuffCount>50</costStuffCount>
+      <statBases>
+        <MaxHitPoints>200</MaxHitPoints>
+        <WorkToBuild>5000</WorkToBuild>
+        <Mass>20</Mass>
+        <GeneticComplexityIncrease>8</GeneticComplexityIncrease>
+      </statBases>
+      <researchPrerequisites>
+        <li>DDJY_SoulAlchemy</li>
+      </researchPrerequisites>
+      <inspectorTabs>
+        <li>DDJY.ITab_ContentsGenepackHolder</li>
+      </inspectorTabs> 
+      <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+      <descriptionHyperlinks>
+        <ThingDef>Genepack</ThingDef>
+        <ThingDef>DDJY_TransmutationCircle</ThingDef>
+      </descriptionHyperlinks>
+      <comps>
+        <li Class="CompProperties_GenepackContainer">
+          <compClass>DDJY.CompGenepackContainer</compClass>
+          <maxCapacity>8</maxCapacity>
+        </li> 
+        <li Class="CompProperties_Facility">
+          <maxSimultaneous>100</maxSimultaneous>
+          <maxDistance>12.9</maxDistance>
+        </li>
+        <li Class="CompProperties_DarklightOverlay">
+          <compClass>DDJY.CompDarklightOverlay</compClass>
+          <fireSize>1</fireSize>
+          <offset>(0,0,0.95)</offset>
+        </li>
+      </comps>
+    </ThingDef>
+</Defs>
