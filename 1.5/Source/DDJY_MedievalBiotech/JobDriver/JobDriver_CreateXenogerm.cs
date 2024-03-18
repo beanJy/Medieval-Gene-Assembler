@@ -134,9 +134,11 @@ namespace DDJY
                         }
                         foreach(Gene gene in list)
                         {
-                            gene.def = packsList[i].GeneSet.GenesListForReading[0];
-                            flag = true;
-                            break;
+                            if (gene.def == packsList[i].GeneSet.GenesListForReading[0])
+                            {
+                                flag = true;
+                                break;
+                            }
                         }
 
                     }
