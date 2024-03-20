@@ -72,6 +72,7 @@
     <Compile Include="Defs\DDJY_WorkGiverDefOf.cs" />
     <Compile Include="JobDriver\JobDriver_CarryGenepackToContainer.cs" />
     <Compile Include="JobDriver\JobDriver_HaulToContainer.cs" />
+    <Compile Include="Window\DDJY_FloatMenuOption.cs" />
     <Compile Include="Window\Dialog_CreateXenogerm.cs" />
     <Compile Include="JobDriver\JobDriver_CreateXenogerm.cs" />
     <Compile Include="JobDriver\JobDriver_RandomlyExtractGenes.cs" />

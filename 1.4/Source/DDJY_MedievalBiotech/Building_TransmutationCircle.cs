@@ -485,6 +485,8 @@ namespace DDJY
         //置入人员按钮
         private Command_Action CommandInsertPerson()
         {
+            Color colorForSlave = new Color32(252, 244, 3, byte.MaxValue);
+            Color colorForPrisoner = new Color(1f, 0.7176471f, 0.12941177f);
             Command_Action command_Action5 = new Command_Action();
             command_Action5.defaultLabel = "InsertPerson".Translate() + "...";
             command_Action5.defaultDesc = "InsertPersonGeneExtractorDesc".Translate();
@@ -492,7 +494,18 @@ namespace DDJY
             command_Action5.action = delegate
             {
                 List<FloatMenuOption> list = new List<FloatMenuOption>();
+                List<Pawn> colonistlist = new List<Pawn>();
+                List<Pawn> slavelist = new List<Pawn>();
+                List<Pawn> prisonerlist = new List<Pawn>();
                 foreach (Pawn item in base.Map.mapPawns.AllPawnsSpawned)
+                {
+                    if(item.IsColonist&& !item.IsSlaveOfColony) { colonistlist.Add(item); }
+                    if(item.IsSlaveOfColony) { slavelist.Add(item); }
+                    if(item.IsPrisonerOfColony) { prisonerlist.Add(item); }
+                }
+                colonistlist.AddRange(slavelist);
+                colonistlist.AddRange(prisonerlist);
+                foreach (Pawn item in colonistlist)
                 {
                     Pawn pawn = item;
                     if (pawn.genes != null)
@@ -513,16 +526,24 @@ namespace DDJY
                             }
                             else
                             {
+                                Color color = new Color(0.6313726f, 0.8352941f, 0.7058824f);
+                                if (pawn.IsSlaveOfColony)
+                                {
+                                    color = colorForSlave;
+                                }
+                                if (pawn.IsPrisonerOfColony)
+                                {
+                                    color = colorForPrisoner;
+                                }
                                 Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.XenogermReplicating);
                                 if (firstHediffOfDef != null)
                                 {
-                                    text = text + " (" + firstHediffOfDef.LabelBase + ", " + firstHediffOfDef.TryGetComp<HediffComp_Disappears>().ticksToDisappear.ToStringTicksToPeriod(allowSeconds: true, shortForm: true).Colorize(ColoredText.SubtleGrayColor) + ")";
+                                    text = text + " (" + firstHediffOfDef.LabelBase + ", " + firstHediffOfDef.TryGetComp<HediffComp_Disappears>().ticksToDisappear.ToStringTicksToPeriod(allowSeconds: true, shortForm: true).Colorize(color) + ")";
                                 }
-
-                                list.Add(new FloatMenuOption(text, delegate
+                                list.Add(new DDJY_FloatMenuOption(text, delegate
                                 {
                                     SelectPawn(pawn);
-                                }, pawn, Color.white));
+                                }, pawn, Color.white, color));
                             }
                         }
                     }
