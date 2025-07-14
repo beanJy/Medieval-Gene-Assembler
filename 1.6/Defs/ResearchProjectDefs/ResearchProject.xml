@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <ResearchProjectDef>
+        <defName>DDJY_SoulAlchemy</defName>
+        <label>Soul Alchemy</label>
+        <description>SoulAlchemy</description>
+        <baseCost>1000</baseCost>
+        <techLevel>Medieval</techLevel>
+        <researchViewX>3.00</researchViewX>
+        <researchViewY>0.00</researchViewY>
+        <prerequisites></prerequisites>
+      </ResearchProjectDef>
+
+      <ResearchProjectDef>
+        <defName>DDJY_ArchiteSoulAlchemy</defName>
+        <label>Archite Soul Alchemy</label>
+        <description>ArchiteAlchemy</description>
+        <techLevel>Medieval</techLevel>
+        <baseCost>1500</baseCost>
+        <researchViewX>4.00</researchViewX>
+        <researchViewY>0.00</researchViewY>
+        <prerequisites>
+          <li>DDJY_SoulAlchemy</li>
+        </prerequisites>
+      </ResearchProjectDef>
+
+      <ResearchProjectDef>
+        <defName>DDJY_InheritableSoul</defName>
+        <label>Inheritable Soul</label>
+        <description>Inheritable Soul</description>
+        <techLevel>Medieval</techLevel>
+        <baseCost>1500</baseCost>
+        <researchViewX>4.00</researchViewX>
+        <researchViewY>0.70</researchViewY>
+        <prerequisites>
+          <li>DDJY_SoulAlchemy</li>
+        </prerequisites>
+      </ResearchProjectDef>
+
+      <ResearchProjectDef>
+        <defName>DDJY_SelfSoulEdit</defName>
+        <label>Self Soul Edit</label>
+        <description>Self Soul Edit</description>
+        <techLevel>Medieval</techLevel>
+        <baseCost>2000</baseCost>
+        <researchViewX>4.00</researchViewX>
+        <researchViewY>1.40</researchViewY>
+        <prerequisites>
+          <li>DDJY_SoulAlchemy</li>
+        </prerequisites>
+      </ResearchProjectDef>
+</Defs>

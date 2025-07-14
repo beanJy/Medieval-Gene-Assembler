@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+    <!-- 移除生物科技建筑栏的科技需求 -->
+    <Operation Class="PatchOperationRemove">
+        <xpath>Defs/DesignationCategoryDef[defName="Biotech"]/researchPrerequisites</xpath>
+    </Operation>
+</Patch>

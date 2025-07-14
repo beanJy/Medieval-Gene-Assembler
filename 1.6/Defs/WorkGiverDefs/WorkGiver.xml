@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <WorkGiverDef>
+    <defName>DDJY_CarryToTransmutationCircle</defName>
+    <label>carry to TransmutationCircle</label>
+    <giverClass>DDJY.WorkGiver_CarryToTransmutationCircle</giverClass>
+    <workType>Hauling</workType>
+    <verb>extract soul</verb>
+    <gerund>extracting soul from</gerund>
+    <priorityInType>90</priorityInType>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <canBeDoneByMechs>false</canBeDoneByMechs>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>DDJY_HaulToGeneBank</defName>
+    <label>bank genepack</label>
+    <giverClass>DDJY.WorkGiver_HaulToGeneBank</giverClass>
+    <workType>Hauling</workType>
+    <verb>bank</verb>
+    <gerund>banking</gerund>
+    <priorityInType>111</priorityInType>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+</Defs>

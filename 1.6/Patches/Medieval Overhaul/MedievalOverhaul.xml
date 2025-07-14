@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+    <Operation Class="PatchOperationSequence">
+        <operations>
+          <!-- 灵魂炼金术 -->
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SoulAlchemy"]/prerequisites</xpath>
+            <value>
+              <li>DankPyon_Alchemy</li>
+            </value>
+          </li>
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SoulAlchemy"]</xpath>
+            <value>
+                <tab>DankPyon_MedievalResearchTab</tab>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SoulAlchemy"]/techLevel</xpath>
+            <value>
+                <techLevel>Medieval</techLevel>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SoulAlchemy"]/researchViewX</xpath>
+            <value>
+                <researchViewX>7.00</researchViewX>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SoulAlchemy"]/researchViewY</xpath>
+            <value>
+                <researchViewY>6.50</researchViewY>
+            </value>
+          </li>
+          <!-- 超凡灵魂炼金术 -->
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteSoulAlchemy"]</xpath>
+            <value>
+                <tab>DankPyon_MedievalResearchTab</tab>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteSoulAlchemy"]/techLevel</xpath>
+            <value>
+                <techLevel>Medieval</techLevel>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteSoulAlchemy"]/researchViewX</xpath>
+            <value>
+                <researchViewX>8.00</researchViewX>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_ArchiteSoulAlchemy"]/researchViewY</xpath>
+            <value>
+                <researchViewY>6.50</researchViewY>
+            </value>
+          </li>
+          <!-- 可遗传灵魂 -->
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_InheritableSoul"]</xpath>
+            <value>
+                <tab>DankPyon_MedievalResearchTab</tab>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_InheritableSoul"]/techLevel</xpath>
+            <value>
+                <techLevel>Medieval</techLevel>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_InheritableSoul"]/researchViewX</xpath>
+            <value>
+                <researchViewX>8.00</researchViewX>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_InheritableSoul"]/researchViewY</xpath>
+            <value>
+                <researchViewY>7.0</researchViewY>
+            </value>
+          </li>
+          <!-- 自身灵魂编辑 -->
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SelfSoulEdit"]</xpath>
+            <value>
+                <tab>DankPyon_MedievalResearchTab</tab>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SelfSoulEdit"]/techLevel</xpath>
+            <value>
+                <techLevel>Medieval</techLevel>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SelfSoulEdit"]/researchViewX</xpath>
+            <value>
+                <researchViewX>8.00</researchViewX>
+            </value>
+          </li>
+          <li Class="PatchOperationReplace" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/ResearchProjectDef[defName="DDJY_SelfSoulEdit"]/researchViewY</xpath>
+            <value>
+                <researchViewY>7.5</researchViewY>
+            </value>
+          </li>
+          <!-- 增加基因组商人 -->
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/FactionDef[@Name="DankPyon_NobleHouseFactionBase"]/caravanTraderKinds</xpath>
+            <value>
+                <li>DDJY_Soul_Stone_Merchant</li>
+            </value>
+          </li>
+          <!-- 基地添加基因组货物 -->
+          <li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+            <xpath>Defs/TraderKindDef[defName="DankPyon_Base_Medieval_Standard"]/stockGenerators</xpath>
+            <value>
+              <li MayRequire="Ludeon.RimWorld.Biotech" Class="StockGenerator_SingleDef">
+                <thingDef>Genepack</thingDef>
+                <countRange>2~4</countRange>
+              </li>
+              <!-- Archite capsule -->
+              <li MayRequire="Ludeon.RimWorld.Biotech" Class="StockGenerator_SingleDef">
+                <thingDef>ArchiteCapsule</thingDef>
+                <countRange>0~1</countRange> 
+              </li>
+            </value>
+          </li>
+        </operations>
+      </Operation>
+</Patch>

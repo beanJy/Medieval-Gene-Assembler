@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <TraderKindDef>
+        <defName>DDJY_Soul_Stone_Merchant</defName>
+        <label>soul stone merchant</label>
+        <commonality>1</commonality>
+        <stockGenerators>
+          <!-- Resources -->
+          <li Class="StockGenerator_SingleDef">
+            <thingDef>Silver</thingDef>
+            <countRange>750~1200</countRange>
+          </li>
+          <li Class="StockGenerator_SingleDef">
+            <thingDef>Gold</thingDef>
+            <countRange>40~80</countRange>
+          </li>
+          <!-- Genepacks -->
+          <li MayRequire="Ludeon.RimWorld.Biotech" Class="StockGenerator_SingleDef">
+            <thingDef>Genepack</thingDef>
+            <countRange>15~20</countRange>
+          </li>
+          <!-- Archite capsule -->
+          <li MayRequire="Ludeon.RimWorld.Biotech" Class="StockGenerator_SingleDef">
+            <thingDef>ArchiteCapsule</thingDef>
+            <countRange>0~1</countRange>
+          </li>
+          <!-- Buying -->
+          <li Class="StockGenerator_BuyExpensiveSimple" />
+        </stockGenerators>
+      </TraderKindDef>
+</Defs>
